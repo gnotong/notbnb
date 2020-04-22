@@ -4,10 +4,11 @@
 
 {% block body %}
     <div class="container">
-        <h2 class="h1 my-3">Our best announcements</h2>
+        <h2 class="h1 my-3">Our best advertisements</h2>
 
         <div class="row">
             {% for ad in ads %}
+                {% set showUrl = path('ads_show', {slug: ad.slug}) %}
                 <div class="col-md-4">
                     <div class="card bg-light mb-3 rounded-0">
                         <div class="card-header text-center">
@@ -15,14 +16,18 @@
                             <hr>
                             <small>Not yet noted</small>
                         </div>
-                        <img src="{{ ad.coverImage }}" alt="apartment image"
-                             style="height: 200px;width: 100%; display: block;">
+                        <a href="{{ showUrl }}">
+                            <img src="{{ ad.coverImage }}" alt="apartment image"
+                                 style="height: 200px;width: 100%; display: block;">
+                        </a>
                         <div class="card-body">
-                            <h4 class="card-title">{{ ad.title }}</h4>
+                            <a href="{{ showUrl }}">
+                                <h4 class="card-title">{{ ad.title }}</h4>
+                            </a>
                             <p class="card-text">
                                 {{ ad.introduction }}
                             </p>
-                            <a href="{{ path('ads_show', {slug: ad.slug}) }}" type="button" class="btn btn-secondary">Details</a>
+                            <a href="{{ showUrl }}" type="button" class="btn btn-secondary">Details</a>
                         </div>
                     </div>
                 </div>
