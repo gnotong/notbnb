@@ -1,0 +1,40 @@
+version:  '3.7'
+services:
+  mysql:
+    image: mysql:8.0
+    restart: on-failure
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: root
+  # For managing database from graphical interface
+  adminer:
+    image: adminer
+    restart: on-failure
+    ports:
+      - '8080:8080'
+  nginx:
+    image: nginx:1.15.3-alpine
+    restart: on-failure
+    container_name: nginx
+    volumes:
+      - ./apps/rbnb/public/:/usr/src/app:cached
+#      - ./docker/nginx:/etc/nginx/conf.d
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - '80:80'
+    depends_on:
+      - php
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: php
+    restart: on-failure
+    volumes:
+      - ./apps/rbnb:/usr/src/app:rw,cached
+    env_file:
+      - .env
+    user: 1000:1000
+    depends_on:
+      - mysql
