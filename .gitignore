@@ -1,16 +1,2 @@
-###> symfony/framework-bundle ###
-/apps/rbnb/.env.local
-/apps/rbnb/.env.local.php
-/apps/rbnb/.env.*.local
-/apps/rbnb/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/apps/rbnb/var/
-/apps/rbnb/vendor/
-###< symfony/framework-bundle ###
 .idea
 .env
-###> symfony/phpunit-bridge ###
-/apps/rbnb/.phpunit
-/apps/rbnb/.phpunit.result.cache
-/apps/rbnb/phpunit.xml
-###< symfony/phpunit-bridge ###
