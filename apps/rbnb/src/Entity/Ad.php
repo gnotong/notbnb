@@ -23,37 +23,37 @@ class Ad
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $title;
+    private ?string $title = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $slug;
+    private ?string $slug = null;
 
     /**
      * @ORM\Column(type="float")
      */
-    private ?float $price;
+    private ?float $price = null;
 
     /**
      * @ORM\Column(type="text")
      */
-    private ?string $introduction;
+    private ?string $introduction = null;
 
     /**
      * @ORM\Column(type="text")
      */
-    private ?string $content;
+    private ?string $content = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $coverImage;
+    private ?string $coverImage = null;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private ?int $rooms;
+    private ?int $rooms = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="ad", orphanRemoval=true)

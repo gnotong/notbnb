@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ad{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2 class="h1 my-3">Create an ad</h2>
+        <div class="row">
+            <div class="col">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
