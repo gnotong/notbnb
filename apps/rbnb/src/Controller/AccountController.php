@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\PasswordReset;
 use App\Entity\User;
 use App\Form\AccountType;
+use App\Form\PasswordResetType;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -104,6 +107,46 @@ class AccountController extends AbstractController
         }
 
        return $this->render('account/profile.html.twig', [
+           'form' => $form->createView(),
+       ]);
+    }
+
+    /**
+     * @Route("/account/password", name="account_password")
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param UserPasswordEncoderInterface $encoder
+     * @return Response
+     */
+    public function resetPassword(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    {
+        $passwordReset = new PasswordReset();
+
+        $form = $this->createForm(PasswordResetType::class, $passwordReset);
+        $form->handleRequest($request);
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (!password_verify($passwordReset->getOld(), $user->getHash())) {
+                // Adds an error to the form field `old`
+                $form->get('old')->addError(new FormError('Old password is not correct'));
+            } else {
+                $hash = $encoder->encodePassword($user, $passwordReset->getNew());
+                $user->setHash($hash);
+
+                $manager->persist($user);
+                $manager->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Your password have been successfully changed'
+                );
+            }
+        }
+
+       return $this->render('account/password.html.twig', [
            'form' => $form->createView(),
        ]);
     }
