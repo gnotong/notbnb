@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Ad;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -17,36 +18,69 @@ class AnnounceType extends AbstractType
 {
 
     /**
-     * Helps define placeholders and fields labels
+     * Helps define placeholders and fields labels + other options
      * @param string $label
      * @param string $placeholder
+     * @param array $options
      * @return array
      */
-    private function getConfiguration(string $label, string $placeholder): array
+    private function getConfiguration(string $label, string $placeholder, array $options = []): array
     {
-        return [
+        return array_merge([
             'label' => $label,
             'attr' => [
                 'placeholder' => $placeholder,
             ],
-        ];
+        ], $options);
     }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, $this->getConfiguration('Title', 'Add the best title ever'))
-            ->add('introduction', TextType::class, $this->getConfiguration('Introduction', 'Describe the ad'))
-            ->add('coverImage', UrlType::class, $this->getConfiguration('Cover image', 'Give awesome image url'))
-            ->add('content', TextareaType::class, $this->getConfiguration('Detailed description', 'Type a description that will make customers come to your place'))
-            ->add('rooms', IntegerType::class, $this->getConfiguration('Number of rooms', 'How many rooms are available ?'))
-            ->add('price', MoneyType::class, $this->getConfiguration('Price by night', 'Define the price per night'))
+            ->add(
+                'title',
+                TextType::class,
+                $this->getConfiguration('Title', 'Add the best title ever')
+            )
+            ->add(
+                'introduction',
+                TextType::class,
+                $this->getConfiguration('Introduction', 'Describe the ad')
+            )
+            ->add(
+                'coverImage',
+                UrlType::class,
+                $this->getConfiguration('Cover image', 'Give awesome image url')
+            )
+            ->add(
+                'content',
+                TextareaType::class,
+                $this->getConfiguration('Detailed description', 'Type a description that will make customers come to your place')
+            )
+            ->add(
+                'rooms',
+                IntegerType::class,
+                $this->getConfiguration('Number of rooms', 'How many rooms are available ?')
+            )
+            ->add(
+                'price',
+                MoneyType::class,
+                $this->getConfiguration('Price by night', 'Define the price per night')
+            )
+            ->add(
+                'images',
+                CollectionType::class,
+                [
+                    'entry_type' => ImageType::class,
+                    'allow_add' => true,
+                ],
+            )
             ->add('save', SubmitType::class, [
                 'label' => 'Create new ad',
                 'attr' => [
                     'class' => 'btn btn-primary',
                 ],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

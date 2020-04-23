@@ -2,15 +2,79 @@
 
 {% block title %}New ad{% endblock %}
 
+{% form_theme form _self %}
+
 {% block body %}
     <div class="container">
         <h2 class="h1 my-3">Create an ad</h2>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{# IMAGES COLLECTION GLOBAL THEME (ad images field) #}
+{% block _announce_images_widget %}
+    <p>Here you can add your own apartment images</p>
+    {{ form_widget(form) }}
+    <input type="hidden" value="0" id="widget_counter">
+    <div class="form-group">
+        <button type="button" id="add-image" class="btn btn-primary">Add an image</button>
+    </div>
+{% endblock %}
+
+{# IMAGES ENTRY TYPES THEME (This removes unwanted labels on input fields) #}
+{% block _announce_images_entry_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{# IMAGES ENTRY TYPES THEME (ImageType entity fields) #}
+{% block _announce_images_entry_widget %}
+    {# id = identifer of the current widget being displayed #}
+    <div class="form-group" id="block_{{ id }}">
         <div class="row">
-            <div class="col">
-                {{ form_start(form) }}
-                {{ form_widget(form) }}
-                {{ form_end(form) }}
+            <div class="col-10">
+                <div class="row">
+                    <div class="col">
+                        {{ form_widget(form.url) }}
+                    </div>
+                    <div class="col">
+                        {{ form_widget(form.caption) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn btn-danger">X</button>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $('#add-image').click(function () {
+            // Gets the number of ad images, + is to parse val into integer
+            const counter = +$('#widget_counter').val();
+            // Gets new fields template, for each of them found, replace __name__ by the counter
+            const template = $('#announce_images').data('prototype').replace(/__name__/g, counter)
+
+            // Appends the new field in the page
+            $('#announce_images').append(template)
+
+            $('#widget_counter').val(counter + 1)
+
+            // Handle delete buttons
+            handleDeleteButtons();
+        })
+
+        function handleDeleteButtons() {
+            $('button[data-action="delete"]').click(function () {
+                const target = this.dataset.target;
+                $(target).remove();
+            })
+        }
+
+        // Handle delete buttons on page load
+        handleDeleteButtons();
+    </script>
 {% endblock %}
