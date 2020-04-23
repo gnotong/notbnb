@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
@@ -14,23 +15,25 @@ class Image
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url()
      */
-    private $url;
+    private ?string $url = null;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="10", minMessage="Caption must have at least 10 characters")
      */
-    private $caption;
+    private ?string $caption = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Ad", inversedBy="images")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $ad;
+    private ?Ad $ad = null;
 
     public function getId(): ?int
     {

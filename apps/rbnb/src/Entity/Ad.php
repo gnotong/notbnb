@@ -6,10 +6,16 @@ use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AdRepository")
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity(
+ *     fields={"title"},
+ *     message="This title is already in use. Please choose another one."
+ * )
  */
 class Ad
 {
@@ -22,6 +28,12 @@ class Ad
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *     min="10",
+     *     max="255",
+     *     minMessage="Title must have at least 10 characters",
+     *     maxMessage="Title cannot exceed 255 characters"
+     * )
      */
     private ?string $title = null;
 
@@ -32,31 +44,43 @@ class Ad
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\GreaterThan(35, message="Price must be greather than $35")
      */
     private ?float $price = null;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(
+     *     min="20",
+     *     minMessage="introduction must have at least 20 characters"
+     * )
      */
     private ?string $introduction = null;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(
+     *     min="100",
+     *     minMessage="Content must have at least 100 characters"
+     * )
      */
     private ?string $content = null;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url()
      */
     private ?string $coverImage = null;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive(message="Number of rooms cannot be less than 1")
      */
     private ?int $rooms = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="ad", orphanRemoval=true)
+     * @Assert\Valid()
      */
     private Collection $images;
 

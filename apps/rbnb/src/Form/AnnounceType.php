@@ -73,14 +73,9 @@ class AnnounceType extends AbstractType
                 [
                     'entry_type' => ImageType::class,
                     'allow_add' => true,
+                    'allow_delete' => true,
                 ],
-            )
-            ->add('save', SubmitType::class, [
-                'label' => 'Create new ad',
-                'attr' => [
-                    'class' => 'btn btn-primary',
-                ],
-            ]);
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)
