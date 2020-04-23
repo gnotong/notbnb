@@ -6,11 +6,17 @@ use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     message="This email is already in use by another user."
+ * )
  */
 class User implements UserInterface
 {
@@ -23,43 +29,69 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="First name is mandatory")
      */
-    private ?string $firstName;
+    private ?string $firstName = null;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Last name is mandatory")
      */
-    private ?string $lastName;
+    private ?string $lastName = null;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Email is mandatory")
+     * @Assert\Email()
      */
-    private ?string $email;
+    private ?string $email = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url(message="We need a valid picture url here")
      */
-    private ?string $picture;
+    private ?string $picture = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $hash;
+    private ?string $hash = null;
+
+    /**
+     * @var string|null
+     * @Assert\EqualTo(
+     *     propertyPath="hash",
+     *     message="The two passwords are not the same !"
+     * )
+     */
+    public ?string $passwordConfirm = null;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Introduction is mandatory")
+     * @Assert\Length(
+     *     min="20",
+     *     minMessage="An introduction must count at least 20 characters",
+     *     max="100",
+     *     maxMessage="An introduction must not exceed 100 characters",
+     * )
      */
-    private ?string $introduction;
+    private ?string $introduction = null;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Description is mandatory")
+     * @Assert\Length(
+     *     min="100",
+     *     minMessage="A description must count at least 100 characters"
+     * )
      */
-    private ?string $description;
+    private ?string $description = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $slug;
+    private ?string $slug = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Ad", mappedBy="author")
