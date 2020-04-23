@@ -1,0 +1,39 @@
+
+{# IMAGES COLLECTION GLOBAL THEME (ad images field) #}
+{% block _announce_images_widget %}
+    <p>Here you can add your own apartment images</p>
+    {{ form_widget(form) }}
+    <input type="hidden" value="0" id="widget_counter">
+    <div class="form-group">
+        <button type="button" id="add-image" class="btn btn-primary">Add an image</button>
+    </div>
+{% endblock %}
+
+{# IMAGES ENTRY TYPES THEME (This removes unwanted labels on input fields) #}
+{% block _announce_images_entry_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{# IMAGES ENTRY TYPES THEME (ImageType entity fields) #}
+{% block _announce_images_entry_widget %}
+    {# id = identifer of the current widget being displayed #}
+    <div class="form-group" id="block_{{ id }}">
+        <div class="row">
+            <div class="col-10">
+                <div class="row">
+                    <div class="col">
+                        {{ form_widget(form.url) }}
+                        {{ form_errors(form.url) }}
+                    </div>
+                    <div class="col">
+                        {{ form_widget(form.caption) }}
+                        {{ form_errors(form.caption) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn btn-danger">X</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
