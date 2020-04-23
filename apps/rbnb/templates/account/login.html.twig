@@ -10,6 +10,12 @@
                 <div class="bg-light p-3">
                     <h1>Connexion</h1>
                     <hr>
+                    {% if hasError %}
+                        <div class="alert alert-danger">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+
                     <form action="{{ path('account_login') }}" method="post">
                         <div class="form-group">
                             <label for="email">Email</label>
@@ -19,6 +25,7 @@
                                        id="email"
                                        name="_username"
                                        placeholder="Your email address..."
+                                       value="{{ lastUsernameg }}"
                                        required>
                             </div>
                         </div>
