@@ -17,7 +17,7 @@ class AnnounceType extends AbstractType
 {
 
     /**
-     * Helps define
+     * Helps define placeholders and fields labels
      * @param string $label
      * @param string $placeholder
      * @return array
