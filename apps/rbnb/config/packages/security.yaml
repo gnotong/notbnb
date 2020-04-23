@@ -16,7 +16,15 @@ security:
             security: false
         main:
             anonymous: lazy
-            provider: users_in_memory
+
+            # SF will use the form located in account_login path to log user in: user provided by in_database provider
+            provider: in_database
+            form_login:
+                login_path: account_login
+                check_path: account_login
+            logout:
+                path: account_logout
+                target: account_login
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
