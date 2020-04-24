@@ -25,3 +25,7 @@ div.carousel-caption h5, div.carousel-caption p {
     max-width: 64px;
     max-height: 64px;
 }
+.avatar-mini {
+    max-width: 24px;
+    max-height: 24px;
+}

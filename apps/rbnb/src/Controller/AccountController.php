@@ -27,7 +27,7 @@ class AccountController extends AbstractController
      * @param AuthenticationUtils $utils
      * @return Response
      */
-    public function login(AuthenticationUtils $utils)
+    public function login(AuthenticationUtils $utils): Response
     {
         $error = $utils->getLastAuthenticationError();
         $username = $utils->getLastUsername();
@@ -56,8 +56,11 @@ class AccountController extends AbstractController
      * @param UserPasswordEncoderInterface $encoder
      * @return Response
      */
-    public function register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
-    {
+    public function register(
+        Request $request,
+        EntityManagerInterface $manager,
+        UserPasswordEncoderInterface $encoder
+    ): Response {
         $user = new User();
 
         $form = $this->createForm(RegistrationType::class, $user);
@@ -89,7 +92,7 @@ class AccountController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function profile(Request $request, EntityManagerInterface $manager)
+    public function profile(Request $request, EntityManagerInterface $manager): Response
     {
         $user = $this->getUser();
 
@@ -106,9 +109,9 @@ class AccountController extends AbstractController
             );
         }
 
-       return $this->render('account/profile.html.twig', [
-           'form' => $form->createView(),
-       ]);
+        return $this->render('account/profile.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -118,8 +121,11 @@ class AccountController extends AbstractController
      * @param UserPasswordEncoderInterface $encoder
      * @return Response
      */
-    public function resetPassword(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
-    {
+    public function resetPassword(
+        Request $request,
+        EntityManagerInterface $manager,
+        UserPasswordEncoderInterface $encoder
+    ): Response {
         $passwordReset = new PasswordReset();
 
         $form = $this->createForm(PasswordResetType::class, $passwordReset);
@@ -146,8 +152,18 @@ class AccountController extends AbstractController
             }
         }
 
-       return $this->render('account/password.html.twig', [
-           'form' => $form->createView(),
-       ]);
+        return $this->render('account/password.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/account/me", name="account_me")
+     */
+    public function me(): Response
+    {
+        return $this->render('user/show.html.twig', [
+            'user' => $this->getUser(),
+        ]);
     }
 }
