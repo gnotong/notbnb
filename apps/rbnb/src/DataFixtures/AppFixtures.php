@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Ad;
 use App\Entity\Image;
+use App\Entity\Role;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -24,6 +25,21 @@ class AppFixtures extends Fixture
         $faker = Factory::create();
         $users = [];
         $genders = ['male', 'female'];
+
+        $adminRole = new Role();
+        $adminRole->setName('ROLE_ADMIN');
+        $manager->persist($adminRole);
+
+        $adminUser = new User();
+        $adminUser->setFirstName('Gabriel')
+            ->setLastName('Notong')
+            ->setEmail('gabs@gmail.com')
+            ->setPicture('https://randomuser.me/api/portraits/men/53.jpg')
+            ->setIntroduction($faker->sentence)
+            ->setDescription('<p>' . join('<p></p>', $faker->paragraphs(2)) . '</p>')
+            ->setHash($this->encoder->encodePassword($adminUser, 'password'))
+            ->addUserRole($adminRole);
+        $manager->persist($adminUser);
 
         // Manage fake users
         for($i = 1; $i <= 10; $i++) {
