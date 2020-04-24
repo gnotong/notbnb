@@ -6,7 +6,10 @@ use App\Entity\Ad;
 use App\Form\AnnounceType;
 use App\Repository\AdRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,6 +30,7 @@ class AdController extends AbstractController
 
     /**
      * @Route("/ads/new", name="ads_create")
+     * @IsGranted("ROLE_USER")
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return Response
@@ -70,6 +74,7 @@ class AdController extends AbstractController
 
     /**
      * @Route("/ads/{slug}/edit", name="ads_edit")
+     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="This ad belongs to another. You cannot edit it.")
      * @param Ad $ad
      * @param Request $request
      * @param EntityManagerInterface $manager
@@ -94,5 +99,23 @@ class AdController extends AbstractController
         }
 
         return $this->render('ad/edit.html.twig', ['form' => $form->createView(), 'ad' => $ad]);
+    }
+
+    /**
+     * @Route("/ads/{slug}/delete", name="ads_delete")
+     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()")
+     * @param Ad $ad
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return RedirectResponse|Response
+     */
+    public function delete(Ad $ad, Request $request, EntityManagerInterface $manager)
+    {
+        $manager->remove($ad);
+        $manager->flush();
+
+        $this->addFlash('success', "Ad <strong>{$ad->getTitle()}</strong> successfully deleted !");
+
+        return $this->redirectToRoute('ads_list');
     }
 }

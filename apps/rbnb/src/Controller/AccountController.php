@@ -8,13 +8,12 @@ use App\Form\AccountType;
 use App\Form\PasswordResetType;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\This;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -88,6 +87,7 @@ class AccountController extends AbstractController
 
     /**
      * @Route("/account/profile", name="account_profile")
+     * @IsGranted("ROLE_USER")
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return Response
@@ -116,6 +116,7 @@ class AccountController extends AbstractController
 
     /**
      * @Route("/account/password", name="account_password")
+     * @IsGranted("ROLE_USER")
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @param UserPasswordEncoderInterface $encoder
@@ -159,6 +160,7 @@ class AccountController extends AbstractController
 
     /**
      * @Route("/account/me", name="account_me")
+     * @IsGranted("ROLE_USER")
      */
     public function me(): Response
     {
