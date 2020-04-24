@@ -16,13 +16,18 @@
         </ul>
         <ul class="navbar-nav ml-auto">
             {% if app.user %}
+                {% set u = app.user %}
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
-                        <img src="{{ user.picture }}" class="avatar avatar-mini" alt="{{ user }}">
-                        {{ user }}
+                        <img src="{{ u.picture }}" class="avatar avatar-mini" alt="{{ u }}">
+                        {{ u }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right rounded-0 border-top-0"
                          aria-labelledby="accountDropdownLink">
+                        <a href="{{ path('ads_create') }}" class="dropdown-item">
+                            Create an Ad
+                        </a>
+                        <div class="dropdown-divider"></div>
                         <a href="{{ path('account_me') }}" class="dropdown-item">
                             My Profile
                         </a>
