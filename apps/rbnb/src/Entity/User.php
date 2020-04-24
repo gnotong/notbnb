@@ -103,6 +103,11 @@ class User implements UserInterface
         $this->ads = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
+
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
