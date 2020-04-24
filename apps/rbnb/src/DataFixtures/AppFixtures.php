@@ -57,8 +57,12 @@ class AppFixtures extends Fixture
 
             $user = $users[mt_rand(0, count($users) -1)];
 
+            $picture = 'https://i.picsum.photos/id/';
+            $pictureId = $faker->numberBetween(1, 500) . '/600/300.jpg' ;
+            $imageApiUrl = $picture . $pictureId;
+
             $ad->setTitle($title)
-                ->setCoverImage("http://placehold.it/1000x400")
+                ->setCoverImage($imageApiUrl)
                 ->setIntroduction($faker->paragraph(2))
                 ->setContent($content)
                 ->setRooms(mt_rand(1,5))
@@ -67,7 +71,11 @@ class AppFixtures extends Fixture
 
             for($k = 0; $k <= mt_rand(2, 5); $k++) {
                 $image = new Image();
-                $image->setUrl("http://placehold.it/1000x400")
+
+                $pictureId = $faker->numberBetween(1, 500) . '/600/300.jpg' ;
+                $imageApiUrl = $picture . $pictureId;
+
+                $image->setUrl($imageApiUrl)
                     ->setCaption($faker->sentence(2))
                     ->setAd($ad);
 

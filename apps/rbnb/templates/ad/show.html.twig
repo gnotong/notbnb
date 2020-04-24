@@ -23,9 +23,9 @@
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         {% for image in ad.images %}
-                        <li data-target="#carouselExampleIndicators"
-                            data-slide-to="{{ loop.index0 }}"
-                            {% if loop.first %}class="active"{% endif %}></li>
+                            <li data-target="#carouselExampleIndicators"
+                                data-slide-to="{{ loop.index0 }}"
+                                {% if loop.first %}class="active"{% endif %}></li>
                         {% endfor %}
                     </ol>
                     <div class="carousel-inner">
@@ -51,12 +51,15 @@
             </div>
             <div class="col">
                 {% set a = ad.author %}
+                {% set aShowUrl = path('user_show', {slug: a.slug})  %}
                 <div class="row">
                     <div class="col-3">
-                        <img src="{{ a.picture }}" class="avatar avatar-medium" alt="{{ a }}">
+                        <a href="{{ aShowUrl }}">
+                            <img src="{{ a.picture }}" class="avatar avatar-medium" alt="{{ a }}">
+                        </a>
                     </div>
                     <div class="col">
-                        <h4>{{  a }}</h4>
+                        <h4><a href="{{ aShowUrl }}">{{ a }}</a></h4>
                         <span class="badge badge-primary"> {{ a.ads | length }} ads</span>
                     </div>
                 </div>

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My profile!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-3 text-center">
+                <img src="{{ user.picture }}" class="avatar mb-3" alt="{{ user }}">
+                <br>
+                <span class="badge badge-primary">{{ user.ads | length }} Ads</span>
+            </div>
+            <div class="col-9">
+                <h1>{{ user }}</h1>
+            </div>
+        </div>
+
+        {{ user.description | raw }}
+
+        <hr>
+
+        <h2>{{ user }} Announcements</h2>
+
+        {% if user.ads | length > 0 %}
+            <div class="row">
+                {% for ad in user.ads %}
+                    {% include 'ad/_announcement.html.twig' with {'ad': ad} %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="alert alert-warning">
+                    {{ user }} does not yet have announcements
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
