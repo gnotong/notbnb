@@ -28,7 +28,7 @@ class Booking
      * @ORM\ManyToOne(targetEntity="App\Entity\Ad", inversedBy="bookings")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?Ad $ad;
+    private ?Ad $ad = null;
 
     /**
      * @ORM\Column(type="datetime")
@@ -68,11 +68,54 @@ class Booking
     public function prePersist()
     {
         if (empty($this->createdAt)) {
-            $this->createdAt= new \DateTime();
+            $this->createdAt = new \DateTime();
         }
         if (empty($this->amount)) {
             $this->amount = $this->ad->getPrice() * $this->getDuration();
         }
+    }
+
+    public function isBookableDates(): bool
+    {
+        // Gets the dates where the ad is not available => has already been booked up
+        $notAvailableDays = $this->ad->getNotAvailableDays();
+
+        // Gets the booking dates within this interval [startDate, endDate]
+        $bookingDays = $this->getDays();
+
+        // Stringify $bookingDays; using arrow function
+        $days = array_map(fn($dateTime) => $dateTime->format('Y-m-d'), $bookingDays);
+
+        // Stringify $notAvailableDays
+        $notAvailable = array_map(fn($dateTime) => $dateTime->format('Y-m-d'), $notAvailableDays);
+
+        foreach ($days as $day) {
+            if (in_array($day, $notAvailable)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns an array which contains all days between the startDate and endDate
+     * of the booking going on
+     * The step here in the range function represent a day in seconds (24 * 60 * 60)
+     *
+     * @return array|\DateTime[]
+     */
+    public function getDays(): array
+    {
+        $result = range(
+            $this->startDate->getTimestamp(),
+            $this->endDate->getTimestamp(),
+            24 * 60 * 60
+        );
+
+        return array_map(function ($dateTimestamp) {
+            return new \DateTime(date('Y-m-d', $dateTimestamp));
+        }, $result);
     }
 
     public function getDuration(): int

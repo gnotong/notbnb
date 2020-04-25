@@ -7,6 +7,7 @@
         <h1>You are booking for the ad: {{ ad.title }}</h1>
 
         <p>You are about to book the property of <strong>{{ ad.author }}</strong>, we will handle the rest</p>
+        <span><strong>Created on:</strong> <i>{{ ad.createdAt | date('Y-m-d') }}</i></span>
 
         {{ form_start(form) }}
             <div class="alert alert-light p-2">
