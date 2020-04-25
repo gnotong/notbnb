@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Ad;
+use App\Entity\Booking;
 use App\Entity\Image;
 use App\Entity\Role;
 use App\Entity\User;
@@ -42,7 +43,7 @@ class AppFixtures extends Fixture
         $manager->persist($adminUser);
 
         // Manage fake users
-        for($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             $user = new User();
 
             $gender = $faker->randomElement($genders);
@@ -66,29 +67,30 @@ class AppFixtures extends Fixture
         }
 
         // Manage Fake Ads
-        for ($i=0;$i<30;$i++) {
+        for ($i = 0; $i < 30; $i++) {
             $ad = new Ad();
             $content = '<p>' . join('<p></p>', $faker->paragraphs(5)) . '</p>';
             $title = $faker->sentence(2);
 
-            $user = $users[mt_rand(0, count($users) -1)];
+            $user = $users[mt_rand(0, count($users) - 1)];
 
             $picture = 'https://i.picsum.photos/id/';
-            $pictureId = $faker->numberBetween(1, 500) . '/600/300.jpg' ;
+            $pictureId = $faker->numberBetween(1, 500) . '/600/300.jpg';
             $imageApiUrl = $picture . $pictureId;
 
             $ad->setTitle($title)
                 ->setCoverImage($imageApiUrl)
                 ->setIntroduction($faker->paragraph(2))
                 ->setContent($content)
-                ->setRooms(mt_rand(1,5))
+                ->setRooms(mt_rand(1, 5))
                 ->setPrice(mt_rand(25, 99))
                 ->setAuthor($user);
 
-            for($k = 0; $k <= mt_rand(2, 5); $k++) {
+            // manage Ad's Images
+            for ($k = 0; $k <= mt_rand(2, 5); $k++) {
                 $image = new Image();
 
-                $pictureId = $faker->numberBetween(1, 500) . '/600/300.jpg' ;
+                $pictureId = $faker->numberBetween(1, 500) . '/600/300.jpg';
                 $imageApiUrl = $picture . $pictureId;
 
                 $image->setUrl($imageApiUrl)
@@ -96,6 +98,34 @@ class AppFixtures extends Fixture
                     ->setAd($ad);
 
                 $manager->persist($image);
+            }
+
+            // manage Ad's Booking
+            for ($j = 0; $j <= mt_rand(0, 10); $j++) {
+                $booking = new Booking();
+
+                $createdAt = $faker->dateTimeBetween('-6 months');
+                $startDate = $faker->dateTimeBetween('-3 months');
+
+                // number of nights
+                $duration = mt_rand(1, 5);
+
+                // clone is used here in order to not modify startDate. So, a copy is used instead
+                $endDate = (clone $startDate)->modify("+{$duration} days");
+
+                $booker = $users[mt_rand(0, count($users) - 1)];
+
+                $amount = number_format(($ad->getPrice() ? $ad->getPrice() : 0) * $duration, 2);
+
+                $booking
+                    ->setBooker($booker)
+                    ->setAd($ad)
+                    ->setCreatedAt($createdAt)
+                    ->setStartDate($startDate)
+                    ->setEndDate($endDate)
+                    ->setAmount($amount);
+
+                $manager->persist($booking);
             }
 
             $manager->persist($ad);
