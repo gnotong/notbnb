@@ -93,7 +93,7 @@ class Ad
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="ad")
      */
-    private $bookings;
+    private Collection $bookings;
 
     public function __construct()
     {

@@ -105,11 +105,10 @@ class AdController extends AbstractController
      * @Route("/ads/{slug}/delete", name="ads_delete")
      * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()")
      * @param Ad $ad
-     * @param Request $request
      * @param EntityManagerInterface $manager
      * @return RedirectResponse|Response
      */
-    public function delete(Ad $ad, Request $request, EntityManagerInterface $manager)
+    public function delete(Ad $ad, EntityManagerInterface $manager)
     {
         $manager->remove($ad);
         $manager->flush();

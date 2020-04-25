@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Booking
 {
@@ -14,39 +16,69 @@ class Booking
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="bookings")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $booker;
+    private ?User $booker;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Ad", inversedBy="bookings")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $ad;
+    private ?Ad $ad;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Type("\DateTimeInterface", message="Incorrect date format")
      */
-    private $startDate;
+    private ?\DateTimeInterface $startDate = null;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Type("\DateTimeInterface", message="Incorrect date format")
+     * @Assert\GreaterThan(
+     *     propertyPath="startDate",
+     *     message="The arrival date must come after the departure date"
+     * )
      */
-    private $endDate;
+    private ?\DateTimeInterface $endDate = null;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Type("\DateTimeInterface", message="Incorrect date format")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $amount;
+    private ?float $amount = null;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $comment = null;
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        if (empty($this->createdAt)) {
+            $this->createdAt= new \DateTime();
+        }
+        if (empty($this->amount)) {
+            $this->amount = $this->ad->getPrice() * $this->getDuration();
+        }
+    }
+
+    public function getDuration(): int
+    {
+        return $this->endDate->diff($this->startDate)->days;
+    }
 
     public function getId(): ?int
     {
@@ -121,6 +153,18 @@ class Booking
     public function setAmount(float $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
 
         return $this;
     }
