@@ -16,10 +16,8 @@ class BookingController extends AbstractController
 {
     /**
      * @Route("/booking/{id}", name="booking_show")
-     * @param Booking $booking
-     * @return Response
      */
-    public function show(Booking $booking)
+    public function show(Booking $booking): Response
     {
         return $this->render('booking/show.html.twig', [
             'booking' => $booking,
@@ -29,12 +27,8 @@ class BookingController extends AbstractController
     /**
      * @Route("/ads/{slug}/book", name="booking_ad")
      * @IsGranted("ROLE_USER")
-     * @param Ad $ad
-     * @param Request $request
-     * @param EntityManagerInterface $manager
-     * @return Response
      */
-    public function book(Ad $ad, Request $request, EntityManagerInterface $manager)
+    public function book(Ad $ad, Request $request, EntityManagerInterface $manager): Response
     {
         $booking = new Booking();
         $form = $this->createForm(BookingType::class, $booking);
