@@ -24,7 +24,7 @@ class Ad
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -88,11 +88,24 @@ class Ad
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ads")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?User $author;
+    private ?User $author = null;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="ad")
+     * @var Booking[]|Collection
+     */
+    private Collection $bookings;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\Type("\DateTimeInterface", message="Incorrect date format")
+     */
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
     /**
@@ -104,6 +117,51 @@ class Ad
         if (empty($this->slug)) {
             $this->slug = (Slugify::create())->slugify($this->title);
         }
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        if (empty($this->createdAt)) {
+            $this->createdAt = new \DateTime();
+        }
+    }
+
+    /**
+     * Gets all days for which the ad is not available.
+     * All booking dates => not available dates
+     * It will retrieve all dates between [startDate, endDate] for each ad booking
+     * The step here in the range function represent a day in seconds (24 * 60 * 60)
+     *
+     * @return array|\DateTime[]
+     */
+    public function getNotAvailableDays(): array
+    {
+        $notAvailableDays = [];
+
+        foreach ($this->getBookings() as $booking) {
+            $result = range(
+                $booking->getStartDate()->getTimestamp(),
+                $booking->getEndDate()->getTimestamp(),
+                24 * 60 * 60
+            );
+
+            $days = array_map(
+                fn($dateTimestamp) => new \DateTime(date('Y-m-d', $dateTimestamp)),
+                $result
+            );
+
+            $notAvailableDays = [...$notAvailableDays, ...$days];
+        }
+
+        return $notAvailableDays;
+    }
+
+    public function ab($a)
+    {
+        return $a * 3;
     }
 
     public function getId(): ?int
@@ -195,6 +253,18 @@ class Ad
         return $this;
     }
 
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Image[]
      */
@@ -234,6 +304,37 @@ class Ad
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Booking[]
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->setAd($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->contains($booking)) {
+            $this->bookings->removeElement($booking);
+            // set the owning side to null (unless already changed)
+            if ($booking->getAd() === $this) {
+                $booking->setAd(null);
+            }
+        }
 
         return $this;
     }

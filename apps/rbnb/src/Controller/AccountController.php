@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\AccountType;
 use App\Form\PasswordResetType;
 use App\Form\RegistrationType;
+use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -59,7 +60,8 @@ class AccountController extends AbstractController
         Request $request,
         EntityManagerInterface $manager,
         UserPasswordEncoderInterface $encoder
-    ): Response {
+    ): Response
+    {
         $user = new User();
 
         $form = $this->createForm(RegistrationType::class, $user);
@@ -126,7 +128,8 @@ class AccountController extends AbstractController
         Request $request,
         EntityManagerInterface $manager,
         UserPasswordEncoderInterface $encoder
-    ): Response {
+    ): Response
+    {
         $passwordReset = new PasswordReset();
 
         $form = $this->createForm(PasswordResetType::class, $passwordReset);
@@ -167,5 +170,20 @@ class AccountController extends AbstractController
         return $this->render('user/show.html.twig', [
             'user' => $this->getUser(),
         ]);
+    }
+
+    /**
+     * @Route("/account/bookings", name="account_bookings")
+     * @param BookingRepository $bookingRepository
+     * @return Response
+     */
+    public function booking(BookingRepository $bookingRepository)
+    {
+        // we use this, because in the template, we are unable to directly get bookings from the logged in user
+        // app.user.bookings
+        $bookings = $bookingRepository->findBy(['booker' => $this->getUser()]);
+
+        return $this->render('account/bookings.html.twig', ['bookings' => $bookings]);
+
     }
 }

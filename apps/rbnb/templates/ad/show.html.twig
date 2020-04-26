@@ -12,7 +12,7 @@
             <p class="h2">
                 <strong>{{ ad.rooms }} rooms</strong> for <strong>&dollar;{{ ad.price }}</strong> by night
             </p>
-            <a href="#" class="btn btn-primary">Check in !</a>
+            <a href="{{ path('booking_ad', {slug: ad.slug}) }}" class="btn btn-primary">Book !</a>
             {% if app.user and app.user == ad.author %}
                 <a href="{{ path('ads_edit', {slug: ad.slug}) }}" class="btn btn-secondary">Edit the ad</a>
                 <a href="{{ path('ads_delete', {slug: ad.slug}) }}"

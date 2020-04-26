@@ -25,7 +25,7 @@ class User implements UserInterface
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -103,10 +103,16 @@ class User implements UserInterface
      */
     private Collection $userRoles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="booker")
+     */
+    private Collection $bookings;
+
     public function __construct()
     {
         $this->ads = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -312,6 +318,37 @@ class User implements UserInterface
         if ($this->userRoles->contains($role)) {
             $this->userRoles->removeElement($role);
             $role->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Booking[]
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->setBooker($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->contains($booking)) {
+            $this->bookings->removeElement($booking);
+            // set the owning side to null (unless already changed)
+            if ($booking->getBooker() === $this) {
+                $booking->setBooker(null);
+            }
         }
 
         return $this;
