@@ -17,7 +17,8 @@
                 <a href="{{ path('ads_edit', {slug: ad.slug}) }}" class="btn btn-secondary">Edit the ad</a>
                 <a href="{{ path('ads_delete', {slug: ad.slug}) }}"
                    class="btn btn-danger"
-                onclick="return confirm(`Are you sure you want to delete this ad {{ ad.title }} ?`)">Delete the ad</a>
+                   onclick="return confirm(`Are you sure you want to delete this ad {{ ad.title }} ?`)">Delete the
+                    ad</a>
             {% endif %}
         </div>
     </div>
@@ -56,9 +57,25 @@
                 </div>
 
                 <hr>
+                {% set nbComments = ad.comments | length %}
 
-                {% if ad.comments | length > 0 %}
+                {% if nbComments > 0 %}
                     <h2 class="mb-3">Our travellers comments:</h2>
+
+                    <div class="alert alert-info">
+                        <h4 class="alert-heading text-center">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    Average mark given by our customers
+                                </div>
+                                <div class="col">
+                                    {% include 'partials/rating.html.twig' with {'rating': ad.averageRatings} %} <br>
+                                    <small>Calculated on {{ nbComments }} review(s)</small>
+                                </div>
+                            </div>
+                        </h4>
+                    </div>
+
                     {% for comment in ad.comments %}
                         <div class="bg-light rounded mb-3 py-3 px-3">
                             <strong>{{ comment.author }}</strong> said:
@@ -68,7 +85,7 @@
                             <strong>
                                 Mark given by {{ comment.author }}:
                             </strong>
-                            {{ comment.rating }}
+                            {% include 'partials/rating.html.twig' with {'rating': comment.rating} %}
                         </div>
                     {% endfor %}
                 {% else %}

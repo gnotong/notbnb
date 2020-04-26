@@ -4,7 +4,11 @@
         <div class="card-header text-center">
             {{ ad.rooms }} rooms <strong class="text-warning">&dollar;{{ ad.price }}</strong>/night
             <hr>
-            <small>Not yet noted</small>
+            {% if ad.comments | length > 0 %}
+                {% include 'partials/rating.html.twig' with {'rating': ad.averageRatings} %}
+            {% else %}
+                <small>Not yet reviewed</small>
+            {% endif %}
         </div>
         <a href="{{ showUrl }}">
             <img src="{{ ad.coverImage }}" alt="apartment image"

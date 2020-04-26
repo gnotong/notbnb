@@ -134,6 +134,21 @@ class Ad
         }
     }
 
+    public function getAverageRatings(): int
+    {
+        if ($this->comments->count() <= 0) {
+            return 0;
+        }
+
+        $sum = array_reduce(
+            $this->comments->toArray(),
+            fn(int $total, Comment $comment) => $total + $comment->getRating(),
+            0
+        );
+
+        return (int)($sum / $this->comments->count());
+    }
+
     /**
      * Gets all days for which the ad is not available.
      * All booking dates => not available dates
@@ -162,11 +177,6 @@ class Ad
         }
 
         return $notAvailableDays;
-    }
-
-    public function ab($a)
-    {
-        return $a * 3;
     }
 
     public function getId(): ?int
