@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Ad;
 use App\Entity\Booking;
 use App\Form\BookingType;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

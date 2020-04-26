@@ -24,7 +24,7 @@ class Ad
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -88,7 +88,7 @@ class Ad
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ads")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?User $author;
+    private ?User $author = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="ad")

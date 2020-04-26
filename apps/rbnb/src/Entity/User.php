@@ -25,7 +25,7 @@ class User implements UserInterface
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -106,7 +106,7 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="booker")
      */
-    private $bookings;
+    private Collection $bookings;
 
     public function __construct()
     {

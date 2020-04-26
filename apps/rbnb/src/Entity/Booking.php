@@ -16,13 +16,13 @@ class Booking
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="bookings")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?User $booker;
+    private ?User $booker = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Ad", inversedBy="bookings")
