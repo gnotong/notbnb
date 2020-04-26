@@ -4,9 +4,8 @@
 
 {% block body %}
     <div class="container">
-        <h1>My bookings</h1>
-        <hr>
-        <div class="alert alert-info mt-5">
+        <h1 class="my-5">My bookings</h1>
+        <div class="alert alert-info mt-3">
             <p>Find above your future and late bookings</p>
         </div>
 {#        {% for booking in app.user.bookings %}#}
@@ -30,7 +29,7 @@
                     <p>
                         Booking <strong>n°{{ booking.id }}</strong><br>
                         From {{ booking.startDate | date('Y/m/d') }} To {{ booking.endDate | date('Y/m/d') }} <br>
-                        Amount &dollar;{{ ad.price }}
+                        Amount &dollar;{{ ad.price | number_format(2, ',', ' ') }}
                     </p>
                     <a href="{{ path('booking_show', {id: booking.id}) }}" class="btn btn-info">
                         More information
