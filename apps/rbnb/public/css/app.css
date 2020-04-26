@@ -10,6 +10,11 @@ div.ad-title h1, div.ad-title p {
     color: #fff;
     text-shadow: 3px 3px 3px rgb(0,0,0,0.5);
 }
+div.ad-title .btn {
+    margin-top: 2em;
+    font-size: 1.5em;
+    line-height: 1.5em;
+}
 
 div.carousel-caption h5, div.carousel-caption p {
     color: #fff;
@@ -37,4 +42,12 @@ div.carousel-caption h5, div.carousel-caption p {
 
 span#rating i {
     color: goldenrod;
+}
+
+.alert a {
+    text-decoration: none;
+}
+
+.alert .btn {
+    color: white;
 }
