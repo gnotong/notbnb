@@ -42,7 +42,7 @@
                         <dt class="col-md-4">Total amount</dt>
                         <dd class="col-md-8">&dollar;{{ booking.amount }}</dd>
                         <dt class="col-md-4">Comment</dt>
-                        <dd class="col-md-8">{{ booking.comment }}</dd>
+                        <dd class="col-md-8">{{ booking.comment | default('No comment')}}</dd>
                     </dl>
 
                     <hr>
@@ -66,6 +66,27 @@
                             about {{ author }}</a>
                     </p>
                 </div>
+
+                <div class="alert alert-light" id="comment">
+                    <h2 class="alert-heading">Your opinion matters !</h2>
+                    {# Comments can only be added if the customer has already left the accommodation #}
+                    {% if date() >= date(booking.endDate) %}
+                        {% set comment = ad.authorComment(app.user) %}
+                        {% if comment is not null %}
+                            <blockquote>{{ comment.content | raw }}</blockquote>
+                            <strong>Note:</strong>
+                            {% include 'partials/rating.html.twig' with {rating: comment.rating} %}
+                        {% else %}
+                            {{ form_start(form, {'attr': {'method': 'post' }}) }}
+                            {{ form_widget(form) }}
+                            <button type="submit" class="btn btn-success">Save</button>
+                            {{ form_end(form) }}
+                        {% endif %}
+                    {% else %}
+                        <p>You cannot yet  give your feedback. It will be possible after your journey :)</p>
+                    {% endif %}
+                </div>
+
             </div>
             <div class="col">
                 <div class="alert alert-light">

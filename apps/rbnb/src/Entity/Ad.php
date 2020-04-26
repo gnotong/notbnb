@@ -134,6 +134,24 @@ class Ad
         }
     }
 
+    /**
+     * Get a comment given by an user (The one who booked up the Ad)
+     */
+    public function getAuthorComment(User $author): ?Comment
+    {
+        foreach ($this->comments as $comment) {
+            if ($comment->getAuthor() === $author) {
+                return $comment;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the average of ratings on an Ad
+     * @return int
+     */
     public function getAverageRatings(): int
     {
         if ($this->comments->count() <= 0) {
