@@ -2,25 +2,32 @@
 
 {% block title %}Booking!{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+          integrity="sha256-siyOpF/pBWUPgIcQi17TLBkjvNgNQArcmwJB8YvkAgg="
+          crossorigin="anonymous"/>
+{% endblock %}
+
 {% block body %}
     <div class="container">
         <h1>You are booking for the ad: {{ ad.title }}</h1>
 
         <p>You are about to book the property of <strong>{{ ad.author }}</strong>, we will handle the rest</p>
-        <span><strong>Created on:</strong> <i>{{ ad.createdAt | date('Y-m-d') }}</i></span>
+        <span><strong>Published on:</strong> <i>{{ ad.createdAt | date('Y-m-d') }}</i></span>
 
         {{ form_start(form) }}
-            <div class="alert alert-light p-2">
-                <h2>Start by telling us when will you arrive</h2>
-                <div class="row">
-                    <div class="col">
-                        {{ form_row(form.startDate) }}
-                    </div>
-                    <div class="col">
-                        {{ form_row(form.endDate) }}
-                    </div>
+        <div class="alert alert-light p-2">
+            <h2>Start by telling us when will you arrive</h2>
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.startDate) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.endDate) }}
                 </div>
             </div>
+        </div>
 
         <h4>Cost of stay : &dollar;<span id="amount">...</span></h4>
         <span id="days">0</span> night(s) at {{ ad.price }} / night
@@ -35,4 +42,23 @@
 
         {{ form_end(form) }}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
+            integrity="sha256-bqVeqGdJ7h/lYPq6xrPv/YGzMEb6dNxlfiTUHSgRCp8="
+            crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $('#booking_startDate, #booking_endDate').datepicker({
+                format: 'yyyy/mm/dd',
+                datesDisabled: [
+                    {% for day in ad.notAvailableDays %}
+                        "{{ day | date('Y-m-d') }}",
+                    {% endfor %}
+                ],
+                startDate: new Date(),
+            });
+        })
+    </script>
 {% endblock %}

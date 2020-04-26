@@ -29,3 +29,8 @@ div.carousel-caption h5, div.carousel-caption p {
     max-width: 24px;
     max-height: 24px;
 }
+
+/* This is to highlight the dates which are not available for booking */
+.datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
+    color: firebrick !important;
+}
