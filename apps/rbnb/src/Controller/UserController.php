@@ -11,10 +11,8 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/user/{slug}", name="user_show")
-     * @param User $user
-     * @return Response
      */
-    public function show(User $user)
+    public function show(User $user): Response
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,

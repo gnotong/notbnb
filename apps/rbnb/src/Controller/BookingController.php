@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Ad;
 use App\Entity\Booking;
+use App\Entity\Comment;
 use App\Form\BookingType;
+use App\Form\CommentType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,25 +18,37 @@ class BookingController extends AbstractController
 {
     /**
      * @Route("/booking/{id}", name="booking_show")
-     * @param Booking $booking
-     * @return Response
      */
-    public function show(Booking $booking)
+    public function show(Booking $booking, Request $request, EntityManagerInterface $manager)
     {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setAuthor($this->getUser())
+                ->setAd($booking->getAd());
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                'Thank you. Your feedback has been registered !'
+            );
+        }
+
         return $this->render('booking/show.html.twig', [
             'booking' => $booking,
+            'form' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/ads/{slug}/book", name="booking_ad")
      * @IsGranted("ROLE_USER")
-     * @param Ad $ad
-     * @param Request $request
-     * @param EntityManagerInterface $manager
-     * @return Response
      */
-    public function book(Ad $ad, Request $request, EntityManagerInterface $manager)
+    public function book(Ad $ad, Request $request, EntityManagerInterface $manager): Response
     {
         $booking = new Booking();
         $form = $this->createForm(BookingType::class, $booking);
@@ -64,5 +78,4 @@ class BookingController extends AbstractController
             'ad' => $ad,
         ]);
     }
-
 }

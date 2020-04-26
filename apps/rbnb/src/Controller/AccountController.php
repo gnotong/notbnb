@@ -24,8 +24,6 @@ class AccountController extends AbstractController
      * Allows user to login.
      * Symfony handles it automatically using configurations in security.yml > firewall:main:provider/form_login
      * @Route("/login", name="account_login")
-     * @param AuthenticationUtils $utils
-     * @return Response
      */
     public function login(AuthenticationUtils $utils): Response
     {
@@ -49,19 +47,14 @@ class AccountController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="account_register")
      * UserPasswordEncoderInterface is used in order to tell symfony which algorithm to use (security.yml)
-     * @param Request $request
-     * @param EntityManagerInterface $manager
-     * @param UserPasswordEncoderInterface $encoder
-     * @return Response
+     * @Route("/register", name="account_register")
      */
     public function register(
         Request $request,
         EntityManagerInterface $manager,
         UserPasswordEncoderInterface $encoder
-    ): Response
-    {
+    ): Response {
         $user = new User();
 
         $form = $this->createForm(RegistrationType::class, $user);
@@ -90,9 +83,6 @@ class AccountController extends AbstractController
     /**
      * @Route("/account/profile", name="account_profile")
      * @IsGranted("ROLE_USER")
-     * @param Request $request
-     * @param EntityManagerInterface $manager
-     * @return Response
      */
     public function profile(Request $request, EntityManagerInterface $manager): Response
     {
@@ -119,17 +109,12 @@ class AccountController extends AbstractController
     /**
      * @Route("/account/password", name="account_password")
      * @IsGranted("ROLE_USER")
-     * @param Request $request
-     * @param EntityManagerInterface $manager
-     * @param UserPasswordEncoderInterface $encoder
-     * @return Response
      */
     public function resetPassword(
         Request $request,
         EntityManagerInterface $manager,
         UserPasswordEncoderInterface $encoder
-    ): Response
-    {
+    ): Response {
         $passwordReset = new PasswordReset();
 
         $form = $this->createForm(PasswordResetType::class, $passwordReset);
@@ -174,13 +159,14 @@ class AccountController extends AbstractController
 
     /**
      * @Route("/account/bookings", name="account_bookings")
-     * @param BookingRepository $bookingRepository
-     * @return Response
      */
-    public function booking(BookingRepository $bookingRepository)
+    public function booking(BookingRepository $bookingRepository): Response
     {
         // we use this, because in the template, we are unable to directly get bookings from the logged in user
         // app.user.bookings
+        // todo: use in the template app.user.bookings after the above error is solved
+        // todo: Typed property Proxies\__CG__\App\Entity\User::$ must not be accessed before initialization (in __sleep)
+        // todo: This can also solve the problem temporary: public function __sleep(){return [];}
         $bookings = $bookingRepository->findBy(['booker' => $this->getUser()]);
 
         return $this->render('account/bookings.html.twig', ['bookings' => $bookings]);
