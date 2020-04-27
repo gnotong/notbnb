@@ -51,3 +51,7 @@ span#rating i {
 .alert .btn {
     color: white;
 }
+
+td.actions i {
+    color: ivory;
+}

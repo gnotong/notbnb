@@ -33,6 +33,7 @@ class Booking
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("\DateTimeInterface", message="Incorrect date format: waiting for yyyy/mm/dd")
+     * @Assert\GreaterThan("today", message="Arrival date must be after today..", groups={"front"})
      */
     private ?\DateTimeInterface $startDate = null;
 
@@ -64,6 +65,7 @@ class Booking
 
     /**
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
     public function prePersist(): void
     {

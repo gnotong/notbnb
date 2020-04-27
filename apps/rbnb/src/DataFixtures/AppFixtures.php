@@ -102,7 +102,7 @@ class AppFixtures extends Fixture
             }
 
             // manage Ad's Booking
-            for ($j = 0; $j <= mt_rand(0, 10); $j++) {
+            for ($j = 1; $j <= mt_rand(0, 10); $j++) {
                 $booking = new Booking();
 
                 $createdAt = $faker->dateTimeBetween('-6 months');

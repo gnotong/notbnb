@@ -1,0 +1,49 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Announcement{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-5">Announces management</h1>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th class="text-center">bookings</th>
+                <th class="text-center">Marks</th>
+                <th class="text-right">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ad in ads %}
+                <tr>
+                    <td>{{ ad.id }}</td>
+                    <td>{{ ad.title }}</td>
+                    <td>
+                        <img src="{{ ad.author.picture }}" class="avatar avatar-mini" alt="{{ ad.author }}">
+                        {{ ad.author }}
+                    </td>
+                    <td class="text-center">
+                        <span class="badge badge-primary rounded">{{ ad.bookings | length }}</span>
+                    </td>
+                    <td class="text-center">
+                        <span class="badge badge-primary rounded">{{ ad.averageRatings | number_format(1, ',', ' ') }}</span>
+                    </td>
+                    <td class="actions text-right">
+                        <a href="{{ path('admin_ads_edit', {slug: ad.slug}) }}"
+                           class="btn btn-success btn-sm"><i class="fas fa-edit"></i>
+                        </a>
+                        <a class="btn btn-danger btn-sm"
+                           href="{{ path('admin_ads_delete', {id: ad.id}) }}"
+                           onclick="confirm('Do you really want to delete this announcement ?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

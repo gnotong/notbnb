@@ -5,7 +5,7 @@
             {{ ad.rooms }} rooms <strong class="text-warning">&dollar;{{ ad.price | number_format(2, ',', ' ') }}</strong>/night
             <hr>
             {% if ad.comments | length > 0 %}
-                {% include 'partials/rating.html.twig' with {'rating': ad.averageRatings} %}
+                {% include 'public/partials/rating.html.twig' with {'rating': ad.averageRatings} %}
             {% else %}
                 <small>Not yet reviewed</small>
             {% endif %}

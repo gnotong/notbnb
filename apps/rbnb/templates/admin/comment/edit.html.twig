@@ -1,0 +1,39 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Edit Comment{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="container">
+            <h2 class="h1 my-5">Comment edition: N°{{ comment.id }}</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="card bg-light rounded-0">
+                        <div class="alert alert-primary rounded-0">
+                            <h2>Details</h2>
+                            <dl class="row">
+                                <dt class="col-md-4">Announcement:</dt>
+                                <dd class="col-md-8">{{ comment.ad.title }}</dd>
+                                <dt class="col-md-4">Author:</dt>
+                                <dd class="col-md-8">{{ comment.author }}</dd>
+                                <dt class="col-md-4">Created at:</dt>
+                                <dd class="col-md-8">{{ comment.createdAt | date('Y/m/d H:i') }}</dd>
+                                <dt class="col-md-4">Rate given:</dt>
+                                <dd class="col-md-8">{{ comment.rating }}</dd>
+                            </dl>
+                        </div>
+                        <div class="card-body">
+                            {{ form_start(form) }}
+                            {{ form_row(form.content) }}
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-check"></i>
+                                Save changes
+                            </button>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

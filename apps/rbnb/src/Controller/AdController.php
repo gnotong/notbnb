@@ -21,7 +21,7 @@ class AdController extends AbstractController
      */
     public function index(AdRepository $adRepository): Response
     {
-        return $this->render('ad/index.html.twig', [
+        return $this->render('public/ad/index.html.twig', [
             'ads' => $adRepository->findAll(),
         ]);
     }
@@ -52,7 +52,7 @@ class AdController extends AbstractController
             return $this->redirectToRoute('ads_show', ['slug' => $ad->getSlug(),]);
         }
 
-        return $this->render('ad/new.html.twig', ['form' => $form->createView()]);
+        return $this->render('public/ad/new.html.twig', ['form' => $form->createView()]);
     }
 
     /**
@@ -60,7 +60,7 @@ class AdController extends AbstractController
      */
     public function show(Ad $ad): Response
     {
-        return $this->render('ad/show.html.twig', [
+        return $this->render('public/ad/show.html.twig', [
             'ad' => $ad,
         ]);
     }
@@ -87,7 +87,7 @@ class AdController extends AbstractController
             return $this->redirectToRoute('ads_show', ['slug' => $ad->getSlug(),]);
         }
 
-        return $this->render('ad/edit.html.twig', ['form' => $form->createView(), 'ad' => $ad]);
+        return $this->render('public/ad/edit.html.twig', ['form' => $form->createView(), 'ad' => $ad]);
     }
 
     /**
