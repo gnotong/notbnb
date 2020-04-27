@@ -46,7 +46,9 @@ class AnnounceType extends ApplicationType
             ->add(
                 'price',
                 MoneyType::class,
-                $this->getConfiguration('Price by night', 'Define the price per night')
+                $this->getConfiguration('Price by night', 'Define the price per night', [
+                    'currency' => 'USD',
+                ])
             )
             ->add(
                 'images',

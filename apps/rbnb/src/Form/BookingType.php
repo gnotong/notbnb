@@ -24,12 +24,12 @@ class BookingType extends ApplicationType
             ->add(
                 'startDate',
                 TextType::class,
-                $this->getConfiguration('From', 'Enter the arrival date'),
+                $this->getConfiguration('From', 'Format: yyyy/mm/dd'),
             )
             ->add(
                 'endDate',
                 TextType::class,
-                $this->getConfiguration('To', 'Enter the departure date'),
+                $this->getConfiguration('To', 'Format: yyyy/mm/dd'),
             )
             ->add(
                 'comment',

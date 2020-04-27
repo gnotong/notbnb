@@ -32,13 +32,13 @@ class Booking
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface", message="Incorrect date format")
+     * @Assert\Type("\DateTimeInterface", message="Incorrect date format: waiting for yyyy/mm/dd")
      */
     private ?\DateTimeInterface $startDate = null;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface", message="Incorrect date format")
+     * @Assert\Type("\DateTimeInterface", message="Incorrect date format: waiting for yyyy/mm/dd")
      * @Assert\GreaterThan(
      *     propertyPath="startDate",
      *     message="The arrival date must come after the departure date"
@@ -48,7 +48,7 @@ class Booking
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Type("\DateTimeInterface", message="Incorrect date format")
+     * @Assert\Type("\DateTimeInterface", message="Incorrect date format: waiting for yyyy/mm/dd")
      */
     private ?\DateTimeInterface $createdAt = null;
 
