@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'public/base.html.twig' %}
 
 {% block title %}My profile!{% endblock %}
 
@@ -30,7 +30,7 @@
         {% if user.ads | length > 0 %}
             <div class="row">
                 {% for ad in user.ads %}
-                    {% include 'ad/_announcement.html.twig' with {'ad': ad} %}
+                    {% include 'public/ad/_announcement.html.twig' with {'ad': ad} %}
                 {% endfor %}
             </div>
         {% else %}
