@@ -29,7 +29,7 @@ class AdminAccountController extends AbstractController
      * Symfony handles it automatically using configurations in security.yml > firewall:admin:logout
      * @Route("/admin/logout", name="admin_account_logout")
      */
-    public function logout(): void 
+    public function logout(): void
     {
     }
 }

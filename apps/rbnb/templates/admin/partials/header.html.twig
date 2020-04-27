@@ -20,13 +20,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ path('admin_bookings_index') }}">
                     <i class="fas fa-folder"></i>
                     Bookings
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ path('admin_comments_index') }}">
                     <i class="fas fa-comments"></i>
                     Comments
                 </a>
@@ -63,8 +63,8 @@
     </div>
 </nav>
 {% for label, messages in app.flashes %}
-    <div class="container">
-        <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+    <div class="container-fluid">
+        <div class="alert alert-{{ label }} alert-dismissible fade show mt-4 p-3" role="alert">
             {% for message in messages %}
                 {{ message | raw }}
             {% endfor %}

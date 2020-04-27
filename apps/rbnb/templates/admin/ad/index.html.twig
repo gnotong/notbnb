@@ -1,6 +1,6 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Announcement administration{% endblock %}
+{% block title %}Announcement{% endblock %}
 
 {% block body %}
     <div class="container-fluid">
@@ -32,8 +32,14 @@
                         <span class="badge badge-primary rounded">{{ ad.averageRatings | number_format(1, ',', ' ') }}</span>
                     </td>
                     <td class="actions text-right">
-                        <a class="btn btn-success btn-sm"><i class="fas fa-edit"></i></a>
-                        <a class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                        <a href="{{ path('admin_ads_edit', {slug: ad.slug}) }}"
+                           class="btn btn-success btn-sm"><i class="fas fa-edit"></i>
+                        </a>
+                        <a class="btn btn-danger btn-sm"
+                           href="{{ path('admin_ads_delete', {id: ad.id}) }}"
+                           onclick="confirm('Do you really want to delete this announcement ?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}

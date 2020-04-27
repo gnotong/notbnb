@@ -50,7 +50,7 @@
 </nav>
 {% for label, messages in app.flashes %}
     <div class="container">
-        <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+        <div class="alert alert-{{ label }} alert-dismissible fade show mt-4 p-3" role="alert">
             {% for message in messages %}
                 {{ message | raw }}
             {% endfor %}
