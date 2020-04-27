@@ -8,13 +8,44 @@
     <div class="collapse navbar-collapse" id="navbarColor03">
         <ul class="navbar-nav mr-auto">
             <li class="nav-itemannouncements">
-                <a class="nav-link" href="{{ path('homepage') }}">Home</a>
+                <a class="nav-link" href="#">
+                    <i class="fas fa-chart-line"></i>
+                    Dashboard
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('ads_list') }}">Advertisements</a>
+                <a class="nav-link" href="{{ path('admin_ads_index') }}">
+                    <i class="fas fa-hotel"></i>
+                    Announces
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-folder"></i>
+                    Bookings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-comments"></i>
+                    Comments
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-users"></i>
+                    Users
+                </a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a href="{{ path('homepage') }}" target="_blank" class="nav-link">
+                    <i class="fas fa-eye"></i>
+                    Visit website
+                </a>
+            </li>
+
             {% if app.user %}
                 {% set u = app.user %}
                 <li class="nav-item dropdown">
@@ -24,25 +55,8 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right rounded-0 border-top-0"
                          aria-labelledby="accountDropdownLink">
-                        <a href="{{ path('ads_create') }}" class="dropdown-item">
-                            Create an Ad
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="{{ path('account_me') }}" class="dropdown-item">
-                            My Profile
-                        </a>
-                        <a href="{{ path('account_bookings') }}" class="dropdown-item">My Bookings</a>
-                        <a href="{{ path('account_password') }}" class="dropdown-item">Change my password</a>
-                        <div class="dropdown-divider"></div>
                         <a href="{{ path('account_logout') }}" class="dropdown-item">Logout</a>
                     </div>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('account_register') }}">Sign up</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('account_login') }}">Login</a>
                 </li>
             {% endif %}
         </ul>
