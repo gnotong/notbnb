@@ -1,11 +1,12 @@
-
 {# IMAGES COLLECTION GLOBAL THEME (ad images field) #}
 {% block _announce_images_widget %}
     <p>Here you can add your own apartment images</p>
     {{ form_widget(form) }}
     <input type="hidden" value="0" id="widget_counter">
     <div class="form-group">
-        <button type="button" id="add-image" class="btn btn-primary">Add an image</button>
+        <button type="button" id="add-image" class="btn btn-primary">
+           <i class="fas fa-plus"></i> Add an image
+        </button>
     </div>
 {% endblock %}
 
@@ -32,7 +33,9 @@
                 </div>
             </div>
             <div class="col-2">
-                <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn btn-danger">X</button>
+                <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn btn-danger">
+                    <i class="fas fa-trash"></i>
+                </button>
             </div>
         </div>
     </div>

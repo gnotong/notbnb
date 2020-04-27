@@ -69,7 +69,7 @@
                 const DAY_TIME = 24 * 60 * 60 * 1000;
                 const interval = endDate - startDate;
                 const days = interval / DAY_TIME;
-                const amount = days * {{ ad.price | number_format(2, ',', ' ') }};
+                const amount = days * {{ ad.price }};
 
                 $('#days').text(days);
                 $('#amount').text(amount.toLocaleString('en-US'));
