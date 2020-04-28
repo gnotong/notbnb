@@ -12,104 +12,37 @@
             <hr>
             <p>Are you a traveler? and you want to see where you can log in for your next trip</p>
             <p class="lead">
-                <a class="btn btn-primary btn-lg" href="{{ path('ads_list')}}" role="button">See our ads</a>
+                <a class="btn btn-primary btn-lg" href="{{ path('ads_list') }}" role="button">See our ads</a>
             </p>
         </div>
 
         <h2 class="h1 mt-3 mb-4">Our apartments</h2>
 
         <div class="row mt-5">
-            <div class="col-md-4">
-                <div class="card bg-light mb-3 rounded-0">
-                    <div class="card-header text-center">
-                        1 room, 1 bathroom, 1 kitchen
-                        <hr>
-                        <strong class="text-warning">&dollar;49</strong>/night <br>
-                        <small>Not yet noted</small>
-                    </div>
-                    <img src="http://placehold.it/1000x400" alt="apartment image"
-                         style="height: 200px;width: 100%; display: block;">
-                    <div class="card-body">
-                        <h4 class="card-title">Awesome apartment</h4>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque impedit nam neque
-                            perferendis quas quia unde voluptatem! Aut eos, quod.
-                        </p>
-                        <a href="#" type="button" class="btn btn-secondary">Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card bg-light mb-3 rounded-0">
-                    <div class="card-header text-center">
-                        2 rooms, 2 bathrooms, 1 kitchen
-                        <hr>
-                        <strong class="text-warning">&dollar;95</strong>/night <br>
-                        <small>Not yet noted</small>
-                    </div>
-                    <img src="http://placehold.it/1000x400" alt="apartment image"
-                         style="height: 200px;width: 100%; display: block;">
-                    <div class="card-body">
-                        <h4 class="card-title">Awesome apartment</h4>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque impedit nam neque
-                            perferendis quas quia unde voluptatem! Aut eos, quod.
-                        </p>
-                        <a href="#" type="button" class="btn btn-secondary">Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card bg-light mb-3 rounded-0">
-                    <div class="card-header text-center">
-                        3 rooms, 2 bathroom, 1 kitchen
-                        <hr>
-                        <strong class="text-warning">&dollar;112</strong>/night <br>
-                        <small>Not yet noted</small>
-                    </div>
-                    <img src="http://placehold.it/1000x400" alt="apartment image"
-                         style="height: 200px;width: 100%; display: block;">
-                    <div class="card-body">
-                        <h4 class="card-title">Awesome apartment</h4>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque impedit nam neque
-                            perferendis
-                            quas quia unde voluptatem! Aut eos, quod.
-                        </p>
-                        <a href="#" type="button" class="btn btn-secondary">Details</a>
-                    </div>
-                </div>
-            </div>
+            {% for result in bestAds %}
+                {% include 'public/ad/_announcement.html.twig' with {ad: result.ad} %}
+            {% endfor %}
         </div>
 
         <h2 class="h1 mt-3 mb-4">Our owner stars</h2>
+
         <div class="row">
-            <div class="col">
-                <div class="card border-secondary mb-3 rounded-0">
-                    <div class="card-body">
-                        <h4 class="card-title">notgabs gabs</h4>
-                        <hr>
-                        <div class="card-text">
-                            <img src="http://placehold.it/64x64" alt="Notgabs Avatar" class="float-left mr-3">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, magni!</p>
-                            <a href="#" class="btn btn-success float-right">Details</a>
+            {% for result in bestUsers %}
+                {% set user = result.user %}
+                <div class="col">
+                    <div class="card border-secondary mb-3 rounded-0">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ user }}</h4>
+                            <hr>
+                            <div class="card-text">
+                                <img src="{{ user.picture }}" alt="{{ user }}" class="float-left mr-3">
+                                <p>{{ user.introduction }}</p>
+                                <a href="{{ path('user_show', {slug: user.slug}) }}" class="btn btn-success float-right">Details</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card border-secondary mb-3 rounded-0">
-                    <div class="card-body">
-                        <h4 class="card-title">notgabs gabs</h4>
-                        <hr>
-                        <div class="card-text">
-                            <img src="http://placehold.it/64x64" alt="Notgabs Avatar" class="float-left mr-3">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, magni!</p>
-                            <a href="#" class="btn btn-success float-right">Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
