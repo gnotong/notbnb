@@ -19,7 +19,7 @@ class AdController extends AbstractController
     /**
      * @Route("/ads", name="ads_list")
      */
-    public function index(AdRepository $adRepository): Response
+    public function index (AdRepository $adRepository): Response
     {
         return $this->render('public/ad/index.html.twig', [
             'ads' => $adRepository->findAll(),
@@ -30,9 +30,9 @@ class AdController extends AbstractController
      * @Route("/ads/new", name="ads_create")
      * @IsGranted("ROLE_USER")
      */
-    public function create(Request $request, EntityManagerInterface $manager): Response
+    public function create (Request $request, EntityManagerInterface $manager): Response
     {
-        $ad = new Ad();
+        $ad   = new Ad();
         $form = $this->createForm(AnnounceType::class, $ad);
         $form->handleRequest($request);
 
@@ -58,7 +58,7 @@ class AdController extends AbstractController
     /**
      * @Route("/ads/{slug}", name="ads_show")
      */
-    public function show(Ad $ad): Response
+    public function show (Ad $ad): Response
     {
         return $this->render('public/ad/show.html.twig', [
             'ad' => $ad,
@@ -69,7 +69,7 @@ class AdController extends AbstractController
      * @Route("/ads/{slug}/edit", name="ads_edit")
      * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="This ad belongs to another. You cannot edit it.")
      */
-    public function edit(Ad $ad, Request $request, EntityManagerInterface $manager): Response
+    public function edit (Ad $ad, Request $request, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(AnnounceType::class, $ad);
         $form->handleRequest($request);
@@ -94,7 +94,7 @@ class AdController extends AbstractController
      * @Route("/ads/{slug}/delete", name="ads_delete")
      * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()")
      */
-    public function delete(Ad $ad, EntityManagerInterface $manager): RedirectResponse
+    public function delete (Ad $ad, EntityManagerInterface $manager): RedirectResponse
     {
         $manager->remove($ad);
         $manager->flush();

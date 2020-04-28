@@ -1,11 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Form\AdminCommentType;
-use App\Form\CommentType;
-use App\Repository\CommentRepository;
+use App\Service\Paginator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,19 +14,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminCommentController extends AbstractController
 {
     /**
-     * @Route("/admin/comments", name="admin_comments_index")
+     * @Route("/admin/comments/{page<\d+>?1}", name="admin_comments_index")
      */
-    public function index(CommentRepository $commentRepository)
+    public function index (int $page, Paginator $paginator)
     {
+        $paginator->setEntityClass(Comment::class)
+            ->setCurrentPage($page);
+
         return $this->render('admin/comment/index.html.twig', [
-            'comments' => $commentRepository->findAll(),
+            'paginator' => $paginator,
         ]);
     }
 
     /**
      * @Route("/admin/comments/{id}/edit", name="admin_comments_edit")
      */
-    public function edit(Comment $comment, Request $request, EntityManagerInterface $manager)
+    public function edit (Comment $comment, Request $request, EntityManagerInterface $manager)
     {
         $form = $this->createForm(AdminCommentType::class, $comment);
         $form->handleRequest($request);
@@ -43,14 +46,14 @@ class AdminCommentController extends AbstractController
 
         return $this->render('admin/comment/edit.html.twig', [
             'comment' => $comment,
-            'form' => $form->createView(),
+            'form'    => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/admin/comments/{id}/delete", name="admin_comments_delete")
      */
-    public function delete(Comment $comment, EntityManagerInterface $manager)
+    public function delete (Comment $comment, EntityManagerInterface $manager)
     {
         $manager->remove($comment);
         $manager->flush();

@@ -19,10 +19,10 @@ class BookingController extends AbstractController
     /**
      * @Route("/booking/{id}", name="booking_show")
      */
-    public function show(Booking $booking, Request $request, EntityManagerInterface $manager)
+    public function show (Booking $booking, Request $request, EntityManagerInterface $manager)
     {
         $comment = new Comment();
-        $form = $this->createForm(CommentType::class, $comment);
+        $form    = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -40,7 +40,7 @@ class BookingController extends AbstractController
 
         return $this->render('public/booking/show.html.twig', [
             'booking' => $booking,
-            'form' => $form->createView(),
+            'form'    => $form->createView(),
         ]);
     }
 
@@ -48,10 +48,10 @@ class BookingController extends AbstractController
      * @Route("/ads/{slug}/book", name="booking_ad")
      * @IsGranted("ROLE_USER")
      */
-    public function book(Ad $ad, Request $request, EntityManagerInterface $manager): Response
+    public function book (Ad $ad, Request $request, EntityManagerInterface $manager): Response
     {
         $booking = new Booking();
-        $form = $this->createForm(BookingType::class, $booking);
+        $form    = $this->createForm(BookingType::class, $booking);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -60,7 +60,7 @@ class BookingController extends AbstractController
                 ->setBooker($this->getUser());
 
             // Check if the dates are available
-            if(!$booking->isBookableDates()) {
+            if (!$booking->isBookableDates()) {
                 $this->addFlash(
                     'warning',
                     'The chosen dates are not available. This accommodation has already been booked for that period'
@@ -75,7 +75,7 @@ class BookingController extends AbstractController
 
         return $this->render('public/booking/book.html.twig', [
             'form' => $form->createView(),
-            'ad' => $ad,
+            'ad'   => $ad,
         ]);
     }
 }

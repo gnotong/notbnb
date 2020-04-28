@@ -17,7 +17,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for ad in ads %}
+            {% for ad in paginator.data %}
                 <tr>
                     <td>{{ ad.id }}</td>
                     <td>{{ ad.title }}</td>
@@ -35,7 +35,7 @@
                         <a href="{{ path('admin_ads_edit', {slug: ad.slug}) }}"
                            class="btn btn-success btn-sm"><i class="fas fa-edit"></i>
                         </a>
-                        <a class="btn btn-danger btn-sm"
+                        <a class="btn btn-danger btn-sm ml-2"
                            href="{{ path('admin_ads_delete', {id: ad.id}) }}"
                            onclick="confirm('Do you really want to delete this announcement ?')">
                             <i class="fas fa-trash"></i>
@@ -45,5 +45,7 @@
             {% endfor %}
             </tbody>
         </table>
+
+        {{ paginator.render() }}
     </div>
 {% endblock %}
