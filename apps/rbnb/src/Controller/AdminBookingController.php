@@ -17,11 +17,10 @@ class AdminBookingController extends AbstractController
     /**
      * @Route("/admin/bookings/{page<\d+>?1}", name="admin_bookings_index")
      */
-    public function index(int $page, Paginator $paginator): Response
+    public function index (int $page, Paginator $paginator): Response
     {
         $paginator->setEntityClass(Booking::class)
-            ->setCurrentPage($page)
-            ->setRouteName('admin_bookings_index');
+            ->setCurrentPage($page);
 
         return $this->render('admin/booking/index.html.twig', [
             'paginator' => $paginator,
@@ -31,7 +30,7 @@ class AdminBookingController extends AbstractController
     /**
      * @Route("/admin/bookings/{id}/edit", name="admin_bookings_edit")
      */
-    public function edit(Booking $booking, Request $request, EntityManagerInterface $manager): Response
+    public function edit (Booking $booking, Request $request, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(AdminBookingType::class, $booking);
         $form->handleRequest($request);
@@ -51,7 +50,7 @@ class AdminBookingController extends AbstractController
         }
 
         return $this->render('admin/booking/edit.html.twig', [
-            'form' => $form->createView(),
+            'form'    => $form->createView(),
             'booking' => $booking,
         ]);
 
@@ -60,7 +59,7 @@ class AdminBookingController extends AbstractController
     /**
      * @Route("/admin/bookings/{id}/delete", name="admin_bookings_delete")
      */
-    public function delete(Booking $booking, EntityManagerInterface $manager)
+    public function delete (Booking $booking, EntityManagerInterface $manager)
     {
         $manager->remove($booking);
         $manager->flush();
@@ -69,7 +68,7 @@ class AdminBookingController extends AbstractController
             'success',
             'The booking has been successfully deleted'
         );
-        
+
         return $this->redirectToRoute('admin_bookings_index');
     }
 }

@@ -17,11 +17,10 @@ class AdminAdController extends AbstractController
     /**
      * @Route("/admin/ads/{page<\d+>?1}", name="admin_ads_index")
      */
-    public function index(int $page, Paginator $paginator)
+    public function index (int $page, Paginator $paginator)
     {
         $paginator->setEntityClass(Ad::class)
-            ->setCurrentPage($page)
-            ->setRouteName('admin_ads_index');
+            ->setCurrentPage($page);
 
         return $this->render('admin/ad/index.html.twig', [
             'paginator' => $paginator,
@@ -31,7 +30,7 @@ class AdminAdController extends AbstractController
     /**
      * @Route("/admin/{slug}/ads", name="admin_ads_edit")
      */
-    public function edit(Ad $ad, Request $request, EntityManagerInterface $manager): Response
+    public function edit (Ad $ad, Request $request, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(AnnounceType::class, $ad);
         $form->handleRequest($request);
@@ -49,7 +48,7 @@ class AdminAdController extends AbstractController
         }
 
         return $this->render("admin/ad/edit.html.twig", [
-            'ad' => $ad,
+            'ad'   => $ad,
             'form' => $form->createView(),
         ]);
     }
@@ -57,7 +56,7 @@ class AdminAdController extends AbstractController
     /**
      * @Route("/admin/{id}/delete", name="admin_ads_delete")
      */
-    public function delete(Ad $ad, EntityManagerInterface $manager)
+    public function delete (Ad $ad, EntityManagerInterface $manager)
     {
         if ($ad->getBookings()->count() > 0) {
             $this->addFlash(

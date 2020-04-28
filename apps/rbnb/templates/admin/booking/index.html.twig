@@ -32,9 +32,9 @@
                            class="btn btn-success btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a  onclick="confirm('Do you really want to delete this reservation ?')"
-                            href="{{ path('admin_bookings_delete', {id: booking.id}) }}"
-                            class="btn btn-danger ml-2 btn-sm">
+                        <a onclick="confirm('Do you really want to delete this reservation ?')"
+                           href="{{ path('admin_bookings_delete', {id: booking.id}) }}"
+                           class="btn btn-danger ml-2 btn-sm">
                             <i class="fas fa-trash"></i>
                         </a>
                     </td>
@@ -43,6 +43,6 @@
             </tbody>
         </table>
 
-        {% include 'admin/partials/pagination.html.twig' %}
+        {{ paginator.render() }}
     </div>
 {% endblock %}

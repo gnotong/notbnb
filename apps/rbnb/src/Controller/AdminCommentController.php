@@ -16,11 +16,10 @@ class AdminCommentController extends AbstractController
     /**
      * @Route("/admin/comments/{page<\d+>?1}", name="admin_comments_index")
      */
-    public function index(int $page, Paginator $paginator)
+    public function index (int $page, Paginator $paginator)
     {
         $paginator->setEntityClass(Comment::class)
-            ->setCurrentPage($page)
-            ->setRouteName('admin_comments_index');
+            ->setCurrentPage($page);
 
         return $this->render('admin/comment/index.html.twig', [
             'paginator' => $paginator,
@@ -30,7 +29,7 @@ class AdminCommentController extends AbstractController
     /**
      * @Route("/admin/comments/{id}/edit", name="admin_comments_edit")
      */
-    public function edit(Comment $comment, Request $request, EntityManagerInterface $manager)
+    public function edit (Comment $comment, Request $request, EntityManagerInterface $manager)
     {
         $form = $this->createForm(AdminCommentType::class, $comment);
         $form->handleRequest($request);
@@ -47,14 +46,14 @@ class AdminCommentController extends AbstractController
 
         return $this->render('admin/comment/edit.html.twig', [
             'comment' => $comment,
-            'form' => $form->createView(),
+            'form'    => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/admin/comments/{id}/delete", name="admin_comments_delete")
      */
-    public function delete(Comment $comment, EntityManagerInterface $manager)
+    public function delete (Comment $comment, EntityManagerInterface $manager)
     {
         $manager->remove($comment);
         $manager->flush();

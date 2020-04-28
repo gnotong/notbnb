@@ -49,7 +49,7 @@
             </tbody>
         </table>
 
-        {% include 'admin/partials/pagination.html.twig' %}
+        {{ paginator.render() }}
 
     </div>
 {% endblock %}

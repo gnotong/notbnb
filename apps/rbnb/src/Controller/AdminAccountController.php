@@ -13,14 +13,14 @@ class AdminAccountController extends AbstractController
     /**
      * @Route("/admin/login", name="admin_account_login")
      */
-    public function login(AuthenticationUtils $utils): Response
+    public function login (AuthenticationUtils $utils): Response
     {
-        $error = $utils->getLastAuthenticationError();
+        $error    = $utils->getLastAuthenticationError();
         $userName = $utils->getLastUsername();
 
         return $this->render('admin/account/login.html.twig', [
-            'hasError' => $error != null,
-            'error' => $error != null ? $error->getMessage() : '',
+            'hasError'     => $error != null,
+            'error'        => $error != null ? $error->getMessage() : '',
             'lastUsername' => $userName,
         ]);
     }
@@ -30,7 +30,7 @@ class AdminAccountController extends AbstractController
      * Symfony handles it automatically using configurations in security.yml > firewall:admin:logout
      * @Route("/admin/logout", name="admin_account_logout")
      */
-    public function logout(): void
+    public function logout (): void
     {
     }
 }
