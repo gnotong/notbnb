@@ -5,7 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Ad;
 use App\Form\AnnounceType;
-use App\service\Paginator;
+use App\Service\Paginator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

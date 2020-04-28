@@ -1,12 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace App\service;
+namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
+/**
+ * Used to create pagination on data tables
+ */
 class Paginator
 {
     private string                 $entityClass;
@@ -15,18 +21,29 @@ class Paginator
     private EntityManagerInterface $manager;
     private ?string                $routeName;
     private Environment            $twig;
+    private string                 $templatePath;
 
-    public function __construct (EntityManagerInterface $manager, Environment $twig, RequestStack $request)
+    public function __construct (
+        EntityManagerInterface $manager,
+        Environment $twig,
+        RequestStack $request,
+        string $templatePath)
     {
-        $request         = $request->getCurrentRequest();
-        $this->manager   = $manager;
-        $this->twig      = $twig;
-        $this->routeName = $request ? $request->get('_route') : '';
+        $request            = $request->getCurrentRequest();
+        $this->manager      = $manager;
+        $this->twig         = $twig;
+        $this->routeName    = $request ? $request->get('_route') : '';
+        $this->templatePath = $templatePath;
     }
 
+    /**
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function render (): void
     {
-        $this->twig->display('admin/partials/pagination.html.twig', [
+        $this->twig->display($this->templatePath, [
             'pages'     => $this->getPages(),
             'page'      => $this->getCurrentPage(),
             'routeName' => $this->routeName,
@@ -90,6 +107,17 @@ class Paginator
     public function setRouteName (string $routeName): self
     {
         $this->routeName = $routeName;
+        return $this;
+    }
+
+    public function getTemplatePath (): string
+    {
+        return $this->templatePath;
+    }
+
+    public function setTemplatePath (string $templatePath): self 
+    {
+        $this->templatePath = $templatePath;
         return $this;
     }
 }
