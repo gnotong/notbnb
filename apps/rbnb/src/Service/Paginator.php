@@ -6,9 +6,6 @@ namespace App\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 /**
  * Used to create pagination on data tables
@@ -22,6 +19,11 @@ class Paginator
     private ?string                $routeName;
     private Environment            $twig;
     private string                 $templatePath;
+
+    const ENTITY_CLASS_MISSING_ERROR = 'You have to specify on which entity we have to paginate. 
+            Use setEntityClass of your Paginator service';
+    const PAGE_NUMBER_MISSING_ERROR  = 'You have to specify the parameter page.
+            Use setCurrentPage of your paginator service';
 
     public function __construct (
         EntityManagerInterface $manager,
@@ -37,9 +39,7 @@ class Paginator
     }
 
     /**
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
+     * @throws \Exception
      */
     public function render (): void
     {
@@ -50,16 +50,33 @@ class Paginator
         ]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getData (): array
     {
+        if (empty($this->entityClass)) {
+            throw new \Exception(self::ENTITY_CLASS_MISSING_ERROR);
+        }
+
+        if (empty($this->currentPage)) {
+            throw new \Exception(self::PAGE_NUMBER_MISSING_ERROR);
+        }
+
         $offset = $this->currentPage * $this->limit - $this->limit;
         $repo   = $this->manager->getRepository($this->entityClass);
 
         return $repo->findBy([], [], $this->limit, $offset);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getPages (): int
     {
+        if (empty($this->entityClass)) {
+            throw new \Exception(self::ENTITY_CLASS_MISSING_ERROR);
+        }
         $repo  = $this->manager->getRepository($this->entityClass);
         $total = count($repo->findAll());
 
@@ -115,7 +132,7 @@ class Paginator
         return $this->templatePath;
     }
 
-    public function setTemplatePath (string $templatePath): self 
+    public function setTemplatePath (string $templatePath): self
     {
         $this->templatePath = $templatePath;
         return $this;
