@@ -55,3 +55,8 @@ span#rating i {
 td.actions i {
     color: ivory;
 }
+
+.alert-dark table tr:hover{
+    background-color: #454d55;
+    color: darkgrey;
+}

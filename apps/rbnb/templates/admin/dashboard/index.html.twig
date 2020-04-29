@@ -65,12 +65,12 @@
         <hr>
         <div class="row">
             <div class="col">
-                <div class="alert alert-success">
+                <div class="alert alert-dark">
                     <h2 class="alert-heading">
-                        <i class="fas fa-arrow-up"></i>
+                        <i class="fas fa-arrow-up text-success"></i>
                         Best announces
                     </h2>
-                    <table class="table table-hover">
+                    <table class="table table-hover text-light">
                         <thead>
                         <tr>
                             <th>Announce</th>
@@ -89,7 +89,7 @@
                                     {{ ad.firstName ~ ' ' ~ ad.lastName }}
                                 </td>
                                 <td>{{ ad.comments }}</td>
-                                <td><span class="badge badge-dark">{{ ad.rating | number_format(2, ',', ' ') }}</span></td>
+                                <td><span class="badge badge-light">{{ ad.rating | number_format(2, ',', ' ') }}</span></td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -97,9 +97,9 @@
                 </div>
             </div>
             <div class="col">
-                <div class="alert alert-danger">
+                <div class="alert alert-secondary">
                     <h2 class="alert-heading">
-                        <i class="fas fa-arrow-down"></i>
+                        <i class="fas fa-arrow-down text-danger"></i>
                         Worst announces
                     </h2>
                     <table class="table table-hover">
