@@ -2,13 +2,6 @@
 
 {% block title %}Booking!{% endblock %}
 
-{% block stylesheets %}
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
-          integrity="sha256-siyOpF/pBWUPgIcQi17TLBkjvNgNQArcmwJB8YvkAgg="
-          crossorigin="anonymous"/>
-{% endblock %}
-
 {% block body %}
     <div class="container">
         <h1 class="my-1">You are booking for the ad: <em>{{ ad.title }}</em></h1>
@@ -43,9 +36,6 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
-            integrity="sha256-bqVeqGdJ7h/lYPq6xrPv/YGzMEb6dNxlfiTUHSgRCp8="
-            crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
             $('#booking_startDate, #booking_endDate').datepicker({
