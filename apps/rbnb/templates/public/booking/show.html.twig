@@ -56,7 +56,7 @@
                             <h4>
                                 <a href="{{ path('user_show', {slug: author.slug}) }}">{{ author }}</a>
                             </h4>
-                            <span class="badge badge-primary">{{ author.ads | length }} Ads</span>
+                            {{ ((author.ads | length) ~ ' Ads') | badge }}
                         </div>
                     </div>
 

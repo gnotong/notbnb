@@ -103,7 +103,7 @@
                     </div>
                     <div class="col">
                         <h4><a href="{{ aShowUrl }}">{{ a }}</a></h4>
-                        <span class="badge badge-primary"> {{ a.ads | length }} ads</span>
+                        {{ ((a.ads | length) ~ ' Ads') | badge }}
                     </div>
                 </div>
                 {{ a.description | raw }}

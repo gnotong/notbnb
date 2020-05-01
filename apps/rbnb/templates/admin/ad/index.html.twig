@@ -26,10 +26,10 @@
                         {{ ad.author }}
                     </td>
                     <td class="text-center">
-                        <span class="badge badge-primary rounded">{{ ad.bookings | length }}</span>
+                        {{ ad.bookings | length | badge({color: 'dark'}) }}
                     </td>
                     <td class="text-center">
-                        <span class="badge badge-primary rounded">{{ ad.averageRatings | number_format(1, ',', ' ') }}</span>
+                        {{ ad.averageRatings | number_format(1, ',', ' ') | badge({color:'dark'}) }}
                     </td>
                     <td class="actions text-right">
                         <a href="{{ path('admin_ads_edit', {slug: ad.slug}) }}"

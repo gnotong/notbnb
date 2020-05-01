@@ -28,9 +28,7 @@
                     </td>
                     <td>{{ comment.content | u.truncate(100, '...') | raw }}</td>
                     <td class="text-center">
-                        <span class="badge badge-dark">
-                            {{ comment.rating }}
-                        </span>
+                        {{ comment.rating | badge({color: 'dark'}) }}
                     </td>
                     <td>{{ comment.ad.title }}</td>
                     <td class="text-right">
