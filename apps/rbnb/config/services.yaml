@@ -30,3 +30,6 @@ services:
     App\Service\Paginator:
         arguments:
             $templatePath: 'admin/partials/pagination.html.twig'
+
+    App\Twig\TwigBootStrapExtension:
+        tags: ['twig.extension']

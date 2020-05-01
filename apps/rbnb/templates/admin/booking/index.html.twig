@@ -26,7 +26,7 @@
                         {{ booking.booker }}
                     </td>
                     <td>{{ booking.ad.title }}</td>
-                    <td>{{ booking.ad.price }}</td>
+                    <td>{{ booking.ad.price | badge({color: 'dark'}) }}</td>
                     <td class="text-right">
                         <a href="{{ path('admin_bookings_edit', {id: booking.id}) }}"
                            class="btn btn-success btn-sm">

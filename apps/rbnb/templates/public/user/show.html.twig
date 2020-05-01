@@ -8,7 +8,7 @@
             <div class="col-3 text-center">
                 <img src="{{ user.picture }}" class="avatar mb-3" alt="{{ user }}">
                 <br>
-                <span class="badge badge-primary">{{ user.ads | length }} Ads</span>
+                {{ ((user.ads | length) ~ ' Ads') | badge }}
             </div>
             <div class="col-9">
                 <h1>{{ user }}</h1>

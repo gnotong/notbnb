@@ -89,7 +89,7 @@
                                     {{ ad.firstName ~ ' ' ~ ad.lastName }}
                                 </td>
                                 <td>{{ ad.comments }}</td>
-                                <td><span class="badge badge-light">{{ ad.rating | number_format(2, ',', ' ') }}</span></td>
+                                <td>{{ ad.rating | number_format(2, ',', ' ') | badge({color: 'light'}) }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -121,7 +121,7 @@
                                     {{ ad.firstName ~ ' ' ~ ad.lastName }}
                                 </td>
                                 <td>{{ ad.comments }}</td>
-                                <td><span class="badge badge-dark">{{ ad.rating | number_format(2, ',', ' ') }}</span></td>
+                                <td>{{ ad.rating | number_format(2, ',', ' ') | badge({color: 'dark'}) }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
