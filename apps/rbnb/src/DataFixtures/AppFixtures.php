@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Ad;
+use App\Entity\AdLike;
 use App\Entity\Booking;
 use App\Entity\Comment;
 use App\Entity\Image;
@@ -139,6 +140,15 @@ class AppFixtures extends Fixture
                         ->setContent('<p>' . join('<p></p>', $faker->paragraphs(mt_rand(1, 3))) . '</p>');
 
                     $manager->persist($comment);
+                }
+
+                // manage likes
+                if (mt_rand(0,1)) {
+                    $like = new AdLike();
+                    $like->setUser($booker)
+                        ->setAd($ad);
+
+                    $manager->persist($like);
                 }
             }
 

@@ -3,12 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Entity\AdLike;
+use App\Entity\User;
 use App\Form\AnnounceType;
+use App\Repository\AdLikeRepository;
 use App\Repository\AdRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -102,5 +106,55 @@ class AdController extends AbstractController
         $this->addFlash('success', "Ad <strong>{$ad->getTitle()}</strong> successfully deleted !");
 
         return $this->redirectToRoute('ads_list');
+    }
+
+    /**
+     * @Route("/ads/{id}/like", name="ads_like")
+     */
+    public function like(Ad $ad, AdLikeRepository $adLikeRepository, EntityManagerInterface $manager): JsonResponse
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if(!$user) {
+            return new JsonResponse(
+                [
+                    'code' => Response::HTTP_FORBIDDEN ,
+                    'message' => 'You are not allowed to get here. Please login.'
+                ],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        if ($ad->isLikedByUser($user)) {
+            $adLike = $adLikeRepository->findOneBy(['user' => $user, 'ad' => $ad]);
+            $manager->remove($adLike);
+            $manager->flush();
+
+            return new JsonResponse(
+                [
+                    'code' => Response::HTTP_OK,
+                    'message' => 'Likes has been successfully deleted.',
+                    'likes' => $adLikeRepository->count(['ad' => $ad]),
+                ],
+                Response::HTTP_OK
+            );
+        }
+
+        $adLike = new AdLike();
+        $adLike->setAd($ad)
+            ->setUser($user);
+
+        $manager->persist($adLike);
+        $manager->flush();
+
+        return new JsonResponse(
+            [
+                'code' => Response::HTTP_OK,
+                'message' => 'Likes has been successfully added.',
+                'likes' => $adLikeRepository->count(['ad' => $ad]),
+            ],
+            Response::HTTP_OK
+        );
     }
 }

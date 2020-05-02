@@ -2,7 +2,8 @@
 <div class="col-md-4">
     <div class="card bg-light mb-3 rounded-0">
         <div class="card-header text-center">
-            {{ ad.rooms }} rooms <strong class="text-warning">&dollar;{{ ad.price | number_format(2, ',', ' ') }}</strong>/night
+            {{ ad.rooms }} rooms <strong
+                    class="text-warning">&dollar;{{ ad.price | number_format(2, ',', ' ') }}</strong>/night
             <hr>
             {% if ad.comments | length > 0 %}
                 {% include 'public/partials/rating.html.twig' with {'rating': ad.averageRatings} %}
@@ -21,6 +22,15 @@
             <p class="card-text">
                 {{ ad.introduction }}
             </p>
+            <a href="{{ path('ads_like', {id: ad.id}) }}" class="btn btn-link float-left js-like">
+                {% if app.user and ad.isLikedByUser(app.user) %}
+                    <i class="fas fa-thumbs-up"></i>
+                {% else %}
+                    <i class="far fa-thumbs-up"></i>
+                {% endif %}
+                <span class="js-likes">{{ ad.adLikes | length }}</span>
+                <span>Likes</span>
+            </a>
             <a href="{{ showUrl }}" type="button" class="btn btn-primary float-right">Details</a>
             {% if app.user and app.user == ad.author %}
                 <a href="{{ path('ads_edit', {slug: ad.slug}) }}" class="btn btn-secondary">Edit the ad</a>
