@@ -108,6 +108,7 @@ class Ad
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\AdLike", mappedBy="ad", orphanRemoval=true)
+     * @var Collection<AdLike>
      */
     private Collection $adLikes;
 

@@ -9,6 +9,7 @@ use App\Service\Paginator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdminCommentController extends AbstractController
@@ -16,7 +17,7 @@ class AdminCommentController extends AbstractController
     /**
      * @Route("/admin/comments/{page<\d+>?1}", name="admin_comments_index")
      */
-    public function index (int $page, Paginator $paginator)
+    public function index (int $page, Paginator $paginator): Response
     {
         $paginator->setEntityClass(Comment::class)
             ->setCurrentPage($page);
@@ -29,7 +30,7 @@ class AdminCommentController extends AbstractController
     /**
      * @Route("/admin/comments/{id}/edit", name="admin_comments_edit")
      */
-    public function edit (Comment $comment, Request $request, EntityManagerInterface $manager)
+    public function edit (Comment $comment, Request $request, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(AdminCommentType::class, $comment);
         $form->handleRequest($request);
@@ -53,7 +54,7 @@ class AdminCommentController extends AbstractController
     /**
      * @Route("/admin/comments/{id}/delete", name="admin_comments_delete")
      */
-    public function delete (Comment $comment, EntityManagerInterface $manager)
+    public function delete (Comment $comment, EntityManagerInterface $manager): Response
     {
         $manager->remove($comment);
         $manager->flush();

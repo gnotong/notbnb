@@ -116,7 +116,7 @@ class AdController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        if(!$user) {
+        if($user == null) {
             return new JsonResponse(
                 [
                     'code' => Response::HTTP_FORBIDDEN ,

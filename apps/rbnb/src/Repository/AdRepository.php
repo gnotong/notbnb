@@ -20,7 +20,10 @@ class AdRepository extends ServiceEntityRepository
         parent::__construct($registry, Ad::class);
     }
 
-    public function findBestAds(int $limit = 2)
+    /**
+     * @return array<int, Ad>
+     */
+    public function findBestAds(int $limit = 2): array
     {
         return $this->createQueryBuilder('a')
             ->join('a.comments', 'c')

@@ -6,6 +6,7 @@ use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -95,26 +96,31 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Ad", mappedBy="author")
+     * @var Collection<Ad>
      */
     private Collection $ads;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Role", mappedBy="users")
+     * @var Collection<Role>
      */
     private Collection $userRoles;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="booker")
+     *
      */
     private Collection $bookings;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author", orphanRemoval=true)
+     * @var Collection<Comment>
      */
     private Collection $comments;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\AdLike", mappedBy="user")
+     * @var Collection<AdLike>
      */
     private Collection $adLikes;
 
@@ -292,9 +298,9 @@ class User implements UserInterface
         return $this->hash;
     }
 
-    public function getSalt()
+    public function getSalt(): string
     {
-        // TODO: Implement getSalt() method.
+        return '';
     }
 
     public function getUsername(): string

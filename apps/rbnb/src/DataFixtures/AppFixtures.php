@@ -23,7 +23,7 @@ class AppFixtures extends Fixture
         $this->encoder = $encoder;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void 
     {
         $faker = Factory::create();
         $users = [];
@@ -126,7 +126,7 @@ class AppFixtures extends Fixture
                     ->setCreatedAt($createdAt)
                     ->setStartDate($startDate)
                     ->setEndDate($endDate)
-                    ->setAmount($amount)
+                    ->setAmount((float)$amount)
                     ->setComment($comment);
 
                 $manager->persist($booking);

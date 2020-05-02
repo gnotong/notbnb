@@ -19,7 +19,7 @@ class BookingController extends AbstractController
     /**
      * @Route("/booking/{id}", name="booking_show")
      */
-    public function show (Booking $booking, Request $request, EntityManagerInterface $manager)
+    public function show (Booking $booking, Request $request, EntityManagerInterface $manager): Response
     {
         $comment = new Comment();
         $form    = $this->createForm(CommentType::class, $comment);

@@ -19,6 +19,7 @@ class Statistics
     /**
      * @throws NoResultException
      * @throws NonUniqueResultException
+     * @return array<string, int>
      */
     public function getStats (): array
     {
@@ -66,6 +67,10 @@ class Statistics
         return $this->manager->createQuery('SELECT COUNT(c) FROM App\Entity\Comment c')->getSingleScalarResult();
     }
 
+    /**
+     * @param string $order
+     * @return array<int, string>
+     */
     public function getCountBestAds (string $order): array
     {
         return $this->manager->createQuery("
