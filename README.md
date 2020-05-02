@@ -1,5 +1,23 @@
 # NOTBNB WEBSITE Example
 
+### Contains
+- Développer une application Symfony complexe
+- Maîtriser le concept de Controllers et de Routes paramétrées ou pas
+- Maîtriser le langage de templating Twig et ses subtilités
+- Utiliser le composant Form pour créer des formulaires riches et des sous-formulaires
+- Utiliser des DataTransformers pour formater des données vers et depuis un formulaire
+- Mettre en place des validations de formulaire
+- Comprendre Doctrine et la liaison avec la base de données
+- Construire une base de données pas à pas grâce aux entités et au système de migrations
+- Créer des requêtes complexes grâce au DQL (Doctrine Query Language)
+- Créer des jeux de fausses données grâce aux Fixtures
+- Utiliser le composant Security pour sécuriser les pages, gérer les rôles et l'authentification des utilisateurs
+- Personnaliser les pages d'erreurs les plus communes
+- Comprendre la notion et l'utilité des Services
+- Construire un système de pagination de A à Z
+- Like feature on Announcements
+- Adding Bootstrap Badge Extension
+
 ### Paginator
 
 - Usage in a controller
