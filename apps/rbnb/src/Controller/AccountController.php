@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -25,7 +26,7 @@ class AccountController extends AbstractController
      * Symfony handles it automatically using configurations in security.yml > firewall:main:provider/form_login
      * @Route("/login", name="account_login")
      */
-    public function login (AuthenticationUtils $utils): Response
+    public function login(AuthenticationUtils $utils): Response
     {
         $error    = $utils->getLastAuthenticationError();
         $username = $utils->getLastUsername();
@@ -42,7 +43,7 @@ class AccountController extends AbstractController
      * Symfony handles it automatically using configurations in security.yml > firewall:main:logout
      * @Route("/logout", name="account_logout")
      */
-    public function logout ()
+    public function logout(): void
     {
     }
 
@@ -50,7 +51,7 @@ class AccountController extends AbstractController
      * UserPasswordEncoderInterface is used in order to tell symfony which algorithm to use (security.yml)
      * @Route("/register", name="account_register")
      */
-    public function register (
+    public function register(
         Request $request,
         EntityManagerInterface $manager,
         UserPasswordEncoderInterface $encoder
@@ -85,7 +86,7 @@ class AccountController extends AbstractController
      * @Route("/account/profile", name="account_profile")
      * @IsGranted("ROLE_USER")
      */
-    public function profile (Request $request, EntityManagerInterface $manager): Response
+    public function profile(Request $request, EntityManagerInterface $manager): Response
     {
         $user = $this->getUser();
 
@@ -111,7 +112,7 @@ class AccountController extends AbstractController
      * @Route("/account/password", name="account_password")
      * @IsGranted("ROLE_USER")
      */
-    public function resetPassword (
+    public function resetPassword(
         Request $request,
         EntityManagerInterface $manager,
         UserPasswordEncoderInterface $encoder
@@ -152,7 +153,7 @@ class AccountController extends AbstractController
      * @Route("/account/me", name="account_me")
      * @IsGranted("ROLE_USER")
      */
-    public function me (): Response
+    public function me(): Response
     {
         return $this->render('public/user/show.html.twig', [
             'user' => $this->getUser(),
@@ -162,7 +163,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/account/bookings", name="account_bookings")
      */
-    public function booking (BookingRepository $bookingRepository): Response
+    public function booking(BookingRepository $bookingRepository): Response
     {
         // we use this, because in the template, we are unable to directly get bookings from the logged in user
         // app.user.bookings

@@ -14,7 +14,7 @@ class StringToDateTimeTransformer implements DataTransformerInterface
      */
     public function transform($dateTime): string
     {
-        if (!$dateTime) {
+        if ($dateTime == null) {
             return '';
         }
 

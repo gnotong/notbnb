@@ -17,7 +17,7 @@ class AdminAdController extends AbstractController
     /**
      * @Route("/admin/ads/{page<\d+>?1}", name="admin_ads_index")
      */
-    public function index (int $page, Paginator $paginator)
+    public function index (int $page, Paginator $paginator): Response
     {
         $paginator->setEntityClass(Ad::class)
             ->setCurrentPage($page);
@@ -56,7 +56,7 @@ class AdminAdController extends AbstractController
     /**
      * @Route("/admin/{id}/delete", name="admin_ads_delete")
      */
-    public function delete (Ad $ad, EntityManagerInterface $manager)
+    public function delete (Ad $ad, EntityManagerInterface $manager): Response
     {
         if ($ad->getBookings()->count() > 0) {
             $this->addFlash(

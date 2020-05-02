@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Environment;
 
@@ -52,6 +53,7 @@ class Paginator
 
     /**
      * @throws \Exception
+     * @return array<Entity>
      */
     public function getData (): array
     {

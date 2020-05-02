@@ -59,7 +59,7 @@ class AdminBookingController extends AbstractController
     /**
      * @Route("/admin/bookings/{id}/delete", name="admin_bookings_delete")
      */
-    public function delete (Booking $booking, EntityManagerInterface $manager)
+    public function delete (Booking $booking, EntityManagerInterface $manager): Response
     {
         $manager->remove($booking);
         $manager->flush();

@@ -20,7 +20,10 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findBestUsers(int $limit = 2)
+    /**
+     * @return array<int, User>
+     */
+    public function findBestUsers(int $limit = 2): ?array
     {
         return $this->createQueryBuilder('u')
             ->join('u.ads', 'a')
