@@ -106,11 +106,17 @@ class Ad
      */
     private Collection $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AdLike", mappedBy="ad", orphanRemoval=true)
+     */
+    private Collection $adLikes;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->bookings = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->adLikes = new ArrayCollection();
     }
 
     /**
@@ -397,6 +403,50 @@ class Ad
             // set the owning side to null (unless already changed)
             if ($comment->getAd() === $this) {
                 $comment->setAd(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AdLike[]
+     */
+    public function getAdLikes(): Collection
+    {
+        return $this->adLikes;
+    }
+
+    /**
+     * Gets likes of current Ad and checks if the param $user has already liked it
+     */
+    public function isLikedByUser(User $user): bool
+    {
+        foreach ($this->getAdLikes() as $adLike) {
+            if ($adLike->getUser() === $user) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function addAdLike(AdLike $adLike): self
+    {
+        if (!$this->adLikes->contains($adLike)) {
+            $this->adLikes[] = $adLike;
+            $adLike->setAd($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdLike(AdLike $adLike): self
+    {
+        if ($this->adLikes->contains($adLike)) {
+            $this->adLikes->removeElement($adLike);
+            // set the owning side to null (unless already changed)
+            if ($adLike->getAd() === $this) {
+                $adLike->setAd(null);
             }
         }
 

@@ -113,12 +113,18 @@ class User implements UserInterface
      */
     private Collection $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AdLike", mappedBy="user")
+     */
+    private Collection $adLikes;
+
     public function __construct()
     {
         $this->ads = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
         $this->bookings = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->adLikes = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -385,6 +391,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($comment->getAuthor() === $this) {
                 $comment->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AdLike[]
+     */
+    public function getAdLikes(): Collection
+    {
+        return $this->adLikes;
+    }
+
+    public function addAdLike(AdLike $adLike): self
+    {
+        if (!$this->adLikes->contains($adLike)) {
+            $this->adLikes[] = $adLike;
+            $adLike->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdLike(AdLike $adLike): self
+    {
+        if ($this->adLikes->contains($adLike)) {
+            $this->adLikes->removeElement($adLike);
+            // set the owning side to null (unless already changed)
+            if ($adLike->getUser() === $this) {
+                $adLike->setUser(null);
             }
         }
 
