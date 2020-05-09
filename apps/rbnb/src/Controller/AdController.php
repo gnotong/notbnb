@@ -71,7 +71,10 @@ class AdController extends AbstractController
 
     /**
      * @Route("/ads/{slug}/edit", name="ads_edit")
-     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="This ad belongs to another. You cannot edit it.")
+     * @Security(
+     *     "is_granted('ROLE_USER') and user === ad.getAuthor()",
+     *     message="This ad belongs to another. You cannot edit it."
+     * )
      */
     public function edit (Ad $ad, Request $request, EntityManagerInterface $manager): Response
     {
@@ -120,7 +123,7 @@ class AdController extends AbstractController
             return new JsonResponse(
                 [
                     'code' => Response::HTTP_FORBIDDEN ,
-                    'message' => 'You are not allowed to get here. Please login.'
+                    'message' => 'You are not allowed like ads until you are logged in.'
                 ],
                 Response::HTTP_FORBIDDEN
             );

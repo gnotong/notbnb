@@ -18,8 +18,6 @@
 {% include 'public/partials/footer.html.twig' %}
 
 {{ encore_entry_script_tags('app') }}
-
-{#<script src="https://unpkg.com/axios/dist/axios.min.js"></script>#}
 <script>
     function onClickBtnLike(event) {
         event.preventDefault();
@@ -35,6 +33,8 @@
                 return;
             }
             icon.classList.replace('far', 'fas');
+        }).catch(function (error) {
+            alert(error.response.data.message);
         })
     }
 
