@@ -1,5 +1,23 @@
 # NOTBNB WEBSITE Example
 
+### INSTALL
+
+- install locally:
+
+To also ahve assets locally
+    - nodejs
+    - npm
+    - composer
+    
+To run docker
+    - docker 
+    - docker-compose
+- clone the repo
+- go to the root directory where docker-compose is located
+- run docker-compose up -d
+- go to the php container and enable db, migrations
+- you are ready to go
+
 ### Contains
 - Développer une application Symfony complexe
 - Maîtriser le concept de Controllers et de Routes paramétrées ou pas
