@@ -1,0 +1,15 @@
+{% extends '../../../../public' %}
+
+{% block title %}Access Forbidden{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Oups ! Your are not authorised to see this page.</h1>
+        <div class="alert alert-danger mt-4 mb-4">
+            <strong>This resource is forbidden</strong>
+        </div>
+
+        <a href="{{ path('homepage') }}" class="btn btn-secondary">Go to the home page</a>
+        <a href="{{ path('ads_list') }}" class="btn btn-warning">All the announcements</a>
+    </div>
+{% endblock %}

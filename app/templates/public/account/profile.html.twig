@@ -1,0 +1,38 @@
+{% extends '../../../public' %}
+
+{% block title %}Edit profile{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Profile edition</h1>
+        {{ form_start(form) }}
+
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-light rounded-0">
+                    <h2 class="alert-heading">General information</h2>
+                    <hr>
+                    {{ form_row(form.firstName) }}
+                    {{ form_row(form.lastName) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.picture) }}
+                </div>
+            </div>
+            <div class="col">
+                <div class="alert alert-light rounded-0">
+                    <h2 class="alert-heading">Details</h2>
+                    <hr>
+                    {{ form_row(form.introduction) }}
+                    {{ form_row(form.description) }}
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-dark clearfix rounded-0">
+            <h2 class="alert-heading">Save your changes</h2>
+            <button type="submit" class="btn btn-primary float-right">
+                <i class="fas fa-check mr-1"></i>Save
+            </button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

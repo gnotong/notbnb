@@ -1,0 +1,19 @@
+{% extends '../../../public' %}
+
+{% block title %}Edit ad{% endblock %}
+
+{% form_theme form 'public/ad/_collection.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h2 class="h1 my-3">Edit ad {{ ad.title }}</h2>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">Save changes</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('ad') }}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends '../../../public' %}
+
+{% block title %}My profile!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row align-items-center mb-5">
+            <div class="col-3 text-center">
+                <img src="{{ user.picture }}" class="avatar mb-3" alt="{{ user }}">
+                <br>
+                {{ ((user.ads | length) ~ ' Ads') | badge }}
+            </div>
+            <div class="col-9">
+                <h1>{{ user }}</h1>
+                {% if user is same as(app.user) %}
+                    <div class="mt-3">
+                        <a href="{{ path('account_profile') }}" class="btn btn-success mb-2 mr-2">Edit my profile</a>
+                        <a href="{{ path('account_password') }}" class="btn btn-primary mb-2">Change my password</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {{ user.description | raw }}
+
+        <hr>
+
+        <h2>{{ user }} Announcements</h2>
+
+        {% if user.ads | length > 0 %}
+            <div class="row">
+                {% for ad in user.ads %}
+                    {% include '../../../public' with {'ad': ad} %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                {{ user }} does not yet have announcements
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

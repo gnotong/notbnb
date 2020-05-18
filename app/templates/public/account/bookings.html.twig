@@ -1,0 +1,41 @@
+{% extends '../../../public' %}
+
+{% block title %}My bookings{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="my-5">My bookings</h1>
+        <div class="alert alert-info mt-3">
+            <p>Find above your future and late bookings</p>
+        </div>
+{#        {% for booking in app.user.bookings %}#}
+        {% for booking in bookings %}
+            {% set ad = booking.ad %}
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <img src="{{ ad.coverImage }}" alt="{{ ad.title }}" class="img-fluid">
+                    <div class="mt-3">
+                        {% set comment = ad.authorComment(app.user) %}
+                        {% if comment is not null %}
+                            Rating: {% include '../../../public' with {rating: comment.rating} %}
+                        {% else %}
+                            You haven't yet rated the Ad !
+                            <a href="{{ path('booking_show', {id: booking.id}) }}#comment" class="btn btn-link">I give my feedback</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <h4>{{ ad.title }}</h4>
+                    <p>
+                        Booking <strong>n°{{ booking.id }}</strong><br>
+                        From {{ booking.startDate | date('Y/m/d') }} To {{ booking.endDate | date('Y/m/d') }} <br>
+                        Amount &dollar;{{ ad.price | number_format(2, ',', ' ') }}
+                    </p>
+                    <a href="{{ path('booking_show', {id: booking.id}) }}" class="btn btn-info">
+                        More information
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends '../../../public' %}
+
+{% block title %}Our ads{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2 class="h1 my-3">Our best announcements</h2>
+
+        <div class="row">
+            {% for ad in ads %}
+                {% include '../../../public' with {'ad': ad} %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
