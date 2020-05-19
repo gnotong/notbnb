@@ -3,8 +3,6 @@
 ### INSTALL
 
 - install locally:
-
-To also ahve assets locally
     - nodejs
     - npm
     - composer
@@ -15,6 +13,10 @@ To run docker
 - clone the repo
 - go to the root directory where docker-compose is located
 - run docker-compose up -d
+- go to app folder and run
+    - composer install
+    - npm install
+    - npm run build or yarn build
 - go to the php container and enable db, migrations
 - you are ready to go
 

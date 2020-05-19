@@ -31,7 +31,7 @@ class AccountController extends AbstractController
         $error    = $utils->getLastAuthenticationError();
         $username = $utils->getLastUsername();
 
-        return $this->render('public/account/login.html.twig', [
+        return $this->render('pub/account/login.html.twig', [
             'hasError'     => $error != null,
             'error'        => $error != null ? $error->getMessage() : '',
             'lastUsername' => $username,
@@ -77,7 +77,7 @@ class AccountController extends AbstractController
             return $this->redirectToRoute('account_login');
         }
 
-        return $this->render('public/account/registration.html.twig', [
+        return $this->render('pub/account/registration.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -103,7 +103,7 @@ class AccountController extends AbstractController
             );
         }
 
-        return $this->render('public/account/profile.html.twig', [
+        return $this->render('pub/account/profile.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -144,7 +144,7 @@ class AccountController extends AbstractController
             }
         }
 
-        return $this->render('public/account/password.html.twig', [
+        return $this->render('pub/account/password.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -155,7 +155,7 @@ class AccountController extends AbstractController
      */
     public function me(): Response
     {
-        return $this->render('public/user/show.html.twig', [
+        return $this->render('pub/user/show.html.twig', [
             'user' => $this->getUser(),
         ]);
     }
@@ -172,7 +172,7 @@ class AccountController extends AbstractController
         // todo: This can also solve the problem temporary: public function __sleep(){return [];}
         $bookings = $bookingRepository->findBy(['booker' => $this->getUser()]);
 
-        return $this->render('public/account/bookings.html.twig', ['bookings' => $bookings]);
+        return $this->render('pub/account/bookings.html.twig', ['bookings' => $bookings]);
 
     }
 }

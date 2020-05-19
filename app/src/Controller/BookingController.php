@@ -38,7 +38,7 @@ class BookingController extends AbstractController
             );
         }
 
-        return $this->render('public/booking/show.html.twig', [
+        return $this->render('pub/booking/show.html.twig', [
             'booking' => $booking,
             'form'    => $form->createView(),
         ]);
@@ -73,7 +73,7 @@ class BookingController extends AbstractController
             }
         }
 
-        return $this->render('public/booking/book.html.twig', [
+        return $this->render('pub/booking/book.html.twig', [
             'form' => $form->createView(),
             'ad'   => $ad,
         ]);

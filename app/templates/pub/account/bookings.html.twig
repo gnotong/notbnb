@@ -1,4 +1,4 @@
-{% extends '../../../public' %}
+{% extends 'pub/base.html.twig' %}
 
 {% block title %}My bookings{% endblock %}
 
@@ -17,7 +17,7 @@
                     <div class="mt-3">
                         {% set comment = ad.authorComment(app.user) %}
                         {% if comment is not null %}
-                            Rating: {% include '../../../public' with {rating: comment.rating} %}
+                            Rating: {% include 'pub/partials/rating.html.twig' with {rating: comment.rating} %}
                         {% else %}
                             You haven't yet rated the Ad !
                             <a href="{{ path('booking_show', {id: booking.id}) }}#comment" class="btn btn-link">I give my feedback</a>

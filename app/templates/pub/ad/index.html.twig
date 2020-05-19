@@ -1,4 +1,4 @@
-{% extends '../../../public' %}
+{% extends 'pub/base.html.twig' %}
 
 {% block title %}Our ads{% endblock %}
 
@@ -8,7 +8,7 @@
 
         <div class="row">
             {% for ad in ads %}
-                {% include '../../../public' with {'ad': ad} %}
+                {% include 'pub/ad/_announcement.html.twig' with {'ad': ad} %}
             {% endfor %}
         </div>
     </div>

@@ -1,4 +1,4 @@
-{% extends '../../../public' %}
+{% extends 'pub/base.html.twig' %}
 
 {% block title %}{{ ad.title }}{% endblock %}
 
@@ -69,7 +69,7 @@
                                     Average mark given by our customers
                                 </div>
                                 <div class="col">
-                                    {% include '../../../public' with {'rating': ad.averageRatings} %} <br>
+                                    {% include 'pub/partials/rating.html.twig' with {'rating': ad.averageRatings} %} <br>
                                     <small>Calculated on {{ nbComments }} review(s)</small>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
                             <strong>
                                 Given rate:
                             </strong>
-                            {% include '../../../public' with {'rating': comment.rating} %}
+                            {% include 'pub/partials/rating.html.twig' with {'rating': comment.rating} %}
                         </div>
                     {% endfor %}
                 {% else %}

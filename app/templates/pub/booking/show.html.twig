@@ -1,4 +1,4 @@
-{% extends '../../../public' %}
+{% extends 'pub/base.html.twig' %}
 
 {% block title %}Booking n°{{ booking.id }}{% endblock %}
 
@@ -75,7 +75,7 @@
                         {% if comment is not null %}
                             <blockquote>{{ comment.content | raw }}</blockquote>
                             <strong>Note:</strong>
-                            {% include '../../../public' with {rating: comment.rating} %}
+                            {% include 'pub/partials/rating.html.twig' with {rating: comment.rating} %}
                         {% else %}
                             {{ form_start(form, {'attr': {'method': 'post' }}) }}
                             {{ form_widget(form) }}
